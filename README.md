@@ -1,8 +1,11 @@
-# Projet GameOn dans le cadre de la formation Développeur d'Aplication JavaScript React
+# Projet GameOn 
 
-# Créez une landing page avec Javascript
+## Créez une landing page avec Javascript dans le cadre de la formation Développeur d'Aplication JavaScript React
 
 -------------------------------------------------------------
 
-Travail sur la validation de formulaire par JavaScript
+```diff	
+# @@ Travail sur la validation de formulaire par JavaScript @@
+```
+
 
