@@ -1,11 +1,7 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
+hamburger.onclick = () => {
+  hamburger.classList.toggle("open");
+  nav_ul.classList.toggle("slide");
+};
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
