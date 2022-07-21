@@ -5,7 +5,7 @@
 -------------------------------------------------------------
 
 ```diff	
-# @@ Travail sur la validation de formulaire par JavaScript @@
+@@ Travail sur la validation de formulaire par JavaScript @@
 ```
 
 
