@@ -124,13 +124,13 @@ function verifEmail() {
   };
 
 email.addEventListener("keyup", () => {
-  verifEmail()
-    email.parentNode.classList.add("white");
-    email.parentNode.setAttribute('data-error-visible',true);
-  if (resultEmail){
-   email.parentNode.removeAttribute('data-error-visible');
-  } else { email.parentNode.removeAttribute('data-error-visible');
-}});
+  verifEmail();
+  email.parentNode.classList.add("white");
+  email.parentNode.setAttribute('data-error-visible',true);
+  if (!resultEmail){
+    email.classList.remove("white");
+  } else { email.parentNode.removeAttribute('data-error-visible');}
+});
 email.addEventListener("focusout", () => {
   verifEmail()
   if (!resultEmail){
