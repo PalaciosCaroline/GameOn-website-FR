@@ -15,6 +15,9 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+  //fermeture du menu nav
+  hamburger.classList.remove("open");
+  nav_ul.classList.remove("slide");
 }
 
 // Close modal event
