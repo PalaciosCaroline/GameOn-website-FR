@@ -300,7 +300,7 @@ main {
   animation-duration: var(--modal-duration);
   background: #232323;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: hidden; 
   position: relative;
   color: #fff;
   padding-top: 10px;
@@ -311,12 +311,13 @@ main {
   margin: 15px auto;
 }
 
+
 label {
   font-family: var(--font-default);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: normal;
   display: inline-block;
-  margin-bottom: 11px;
+  margin: 10px 0 5px 0;
 }
 input {
   padding: 8px;
@@ -333,28 +334,28 @@ input {
 }
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.4em;
+  font-size: 0.7em;
   color: #e54858;
   display: block;
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   text-align: right;
-  line-height: 0.3;
+  line-height: 0.9;
   opacity: 0;
   transition: 0.3s;
 }
 .formData[data-error-visible="true"]::after {
   opacity: 1;
 }
+
+.formData[data-error-visible="true"].white::after {
+  color:white;
+}
+
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* 
-input[data-error]::after {
-    content: attr(data-error);
-    font-size: 0.4em;
-    color: red;
-} */
+
 .checkbox-label,
 .checkbox2-label {
   position: relative;
@@ -545,7 +546,7 @@ input[data-error]::after {
   text-align: left;
   min-width: 424px;
 }
-.hero-content::after {
+/* .hero-content::after {
   content: "";
   width: 100%;
   height: 100%;
@@ -553,7 +554,7 @@ input[data-error]::after {
   position: absolute;
   right: -80px;
   top: 0;
-}
+} */
 .hero-content > * {
   position: relative;
   z-index: 1;
@@ -563,12 +564,7 @@ input[data-error]::after {
   font-weight: normal;
   white-space: nowrap;
 }
-.hero-text {
-  width: 146%;
-  font-weight: normal;
-  margin-top: 57px;
-  padding: 0;
-}
+
 .btn-signup {
   outline: none;
   text-transform: capitalize;
@@ -577,8 +573,17 @@ input[data-error]::after {
   margin: 0;
   margin-top: 59px;
 }
+
+.hero-text {
+  font-size: 1.2rem;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-weight: normal;
+  padding: 0; 
+}
+
 .hero-img {
-  grid-column: span 8;
+  grid-column: span 7;
 }
 .hero-img img {
   width: 100%;
@@ -590,53 +595,80 @@ input[data-error]::after {
   color: #fe142f;
   padding: 0;
   font-size: 1rem;
-  margin: 60px 0 30px;
+  margin: 70px 0 50px;
   font-weight: bolder;
 }
 .hero-section > .btn-signup {
   display: none;
 }
 footer {
-  padding-left: 2vw;
-  padding-right: 2vw;
+  padding:10px 2vw 10px 2vw;
   margin: 0 20px;
+  font-family: var(--font-slab);
+}
+
+@media screen and (max-width: 1060px) {
+  .hero-headline {
+    font-size: 4.5rem;
+  }
 }
 @media screen and (max-width: 800px) {
+  .page_header{
+    margin-bottom:3.5%;
+  }
+
   .hero-section {
     display: block;
     box-shadow: unset;
+    min-height: auto;
   }
   .hero-content {
     background: #fff;
     color: #000;
-    padding: 20px;
+    padding: 20px 0;
   }
-  .hero-content::after {
-    content: unset;
+  
+  .hero-text {
+    margin-top: 40px;
+    margin-bottom:0;
+    width: 90%;
   }
+
   .hero-content .btn-signup {
     display: none;
   }
   .hero-headline {
-    font-size: 4.5rem;
+    font-size: 3.2rem;
     white-space: normal;
   }
-  .hero-text {
-    width: unset;
-    font-size: 1.5rem;
-  }
+
   .hero-img img {
     border-radius: 10px;
-    margin-top: 40px;
+    margin-top: 30px;
   }
   .hero-section > .btn-signup {
     display: block;
     margin: 32px auto 10px;
-    padding: 12px 35px;
+  }
+
+  .btn-signup{
+    width: 180px;
   }
   .copyrights {
-    margin-top: 50px;
     text-align: center;
+    margin-top:30px;
+    margin-bottom:30px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .hero-headline {
+    font-size: 2.3rem;
+  }
+  .hero-text {
+    font-size: 0.7rem;
+  }
+  .hero-content {
+    min-width: 300px;
   }
 }
 
