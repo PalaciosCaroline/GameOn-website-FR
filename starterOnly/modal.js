@@ -232,9 +232,8 @@ let resultCgu
 function verifCgu() {
 if (!checkbox1.checked) {
   checkbox1.parentNode.setAttribute('data-error-visible',true);
-  document.getElementById('checkbox1').focus();
   resultCgu = false;
- } else{ document.getElementById('checkbox1').parentNode.removeAttribute('data-error-visible');
+ } else{ checkbox1.parentNode.removeAttribute('data-error-visible');
  resultCgu = true;
 }};
 //avertissement si décochage cgu
