@@ -14,7 +14,8 @@ let lastName = document.getElementById('lastName');
 let email = document.getElementById('email');
 let birthdate = document.getElementById('birthdate');
 let quantity = document.getElementById('quantity');
-let radios = document.querySelectorAll("location");
+let radios = document.querySelectorAll('input[name="location"]');
+let location1 = document.getElementById("location1");
 let checkbox1 = document.getElementById('checkbox1');
 
 // launch modal event
@@ -59,7 +60,8 @@ const nameRegex = new RegExp('^[A-Za-z]{2,}', 'i');
 const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const dateRegex = /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
 const numberRegex = /^[0-9]+$/;
-const birthRegex = new RegExp('/^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([1][26]|[2468][048]|[3579][26])00))))$/','g');
+const birthRegex = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([1][26]|[2468][048]|[3579][26])00))))$/g;
+
 
 //verification firstName
 let resultFirstName
@@ -158,10 +160,12 @@ function CalculAge() {
   return age;
 }
 
-let resultAge
+let resultAge;
+let isValidDate = Date.parse('birthdate');
 function verifAge() {
   // CalculAge();
-  if (!birthdate.value || age < 12 || age > 130) {
+  // if (!birthdate.value || age.value < 12 || age.value > 130) {
+  if (!birthdate.value || isNaN(isValidDate)) {
     birthdate.parentNode.setAttribute('data-error-visible',true);
       resultAge = false;
   }  else{ birthdate.parentNode.removeAttribute('data-error-visible');
@@ -172,15 +176,17 @@ birthdate.addEventListener("keyup", () => {
   verifAge();
     birthdate.parentNode.classList.add("white");
     birthdate.parentNode.setAttribute('data-error-visible',true);
-  if (resultAge){
-    birthdate.parentNode.removeAttribute('data-error-visible'); 
+  if (!resultAge){
+    birthdate.classList.remove("white");
   } else { birthdate.parentNode.removeAttribute('data-error-visible');}
 });
 birthdate.addEventListener("focusout", () => {
   verifAge();
   if (!resultAge){
     birthdate.parentNode.classList.remove("white");
-  }});
+  } 
+  birthdate.parentNode.removeAttribute('data-error-visible');
+  });
 //
 
 //verification quantity
@@ -209,22 +215,17 @@ quantity.addEventListener("focusout", () => {
 //
 
 //verification checked locations
-let resultLocations
-
 function verifLocations() {
-if (!document.getElementById('location1').checked &&
-        !document.getElementById('location2').checked &&
-        !document.getElementById('location3').checked &&
-        !document.getElementById('location4').checked &&
-        !document.getElementById('location5').checked &&
-        !document.getElementById('location6').checked) {
-    document.getElementById('location1').parentNode.setAttribute('data-error-visible',true);
-          document.getElementById('location1').focus();
+  for (const x of radios) {
+    if (x.checked) {
+      location1.parentNode.removeAttribute('data-error-visible');
+      resultLocations = true;
+        } else{ 
+        location1.parentNode.setAttribute('data-error-visible',true);
           resultLocations = false;
-        } else{ document.getElementById('location1').parentNode.removeAttribute('data-error-visible');
-        resultLocations = true;
-}};
-//
+}}};
+//écoute des inputs des différents tournois 
+radios.forEach((input) => input.addEventListener("click", verifLocations));
 
 //verification cgu
 let resultCgu
