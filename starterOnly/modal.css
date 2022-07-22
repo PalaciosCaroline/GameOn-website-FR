@@ -160,9 +160,6 @@ display: flex;
       margin-top: 15px;
   }
   
-  .nav-ul li:not(li:nth-first-child){
-    margin: 5px 0;
-  }
   .nav-ul a {
     text-align: center;
     padding-top : 5px;
@@ -173,9 +170,7 @@ display: flex;
 
   .nav-ul a:hover::after ,
   .nav-ul a:active::after {
-    transform: scaleX(1);
-
-    
+    transform: scaleX(1); 
   }
   
   .nav-ul {
@@ -190,6 +185,7 @@ display: flex;
     display: block;
     width: 240px;
     margin-left: 10px;
+    margin-top:-1px;
     text-align: center;
     background-color: #fff; 
   }
@@ -203,7 +199,7 @@ display: flex;
     
   .nav-ul{
     width: 260px;
-    height: 185px; 
+    height: 180px; 
     border-radius:3px;
     overflow: hidden;
     position: relative;
@@ -233,14 +229,9 @@ display: flex;
 /*fin header*/
 
 main {
-  /* font-size: 130%; */
   font-weight: bolder;
   color: black;
-  /* padding-top: 0.5vw; */
-  /* margin-top: 1px; */
-  /* margin-bottom:  15px; */
   border-radius: 2rem;
-  /* text-align: justify; */
   margin-right:8%;
   margin-left:8%;
 }
@@ -444,6 +435,7 @@ input {
 .redBorder{
   border: 2px solid #ff0000;
 }
+
 .checkbox-label .checkbox-icon::after,
 .checkbox2-label .checkbox-icon::after {
   content: "";
@@ -473,7 +465,7 @@ input {
 }
 
 #span-cgu.colorred{
-  border : 1px solid red;
+  border : 2px solid red;
 }
 
 .checkbox2-label .checkbox-icon {
