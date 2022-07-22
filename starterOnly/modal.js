@@ -56,7 +56,7 @@ location1.parentNode.setAttribute('data-error','Vous devez choisir une option.')
 checkbox1.parentNode.setAttribute('data-error','Vous devez accepter les termes et conditions.');
 
 //regex à respecter pour validation
-const nameRegex = new RegExp('^[A-Za-z]{2,}', 'i');
+const nameRegex = new RegExp('^[a-z]{2,}', 'i');
 const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const dateRegex = /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
 const numberRegex = /^[0-9]+$/;
@@ -90,7 +90,7 @@ firstName.addEventListener("focusout", () => {
   // else{ firstName.parentNode.removeAttribute('data-error-visible');}
 });
 
-//verification lasttName
+//verification lastName
 let resultLastName
 function verifLastName() {
   if (!nameRegex.test(lastName.value)){
@@ -165,7 +165,7 @@ let isValidDate = Date.parse('birthdate');
 function verifAge() {
   // CalculAge();
   // if (!birthdate.value || age.value < 12 || age.value > 130) {
-  if (!birthdate.value || isNaN(isValidDate)) {
+  if (!birthdate.value || isNaN(isValidDate || !dateRegex.test(birthdate.value))) {
     birthdate.parentNode.setAttribute('data-error-visible',true);
       resultAge = false;
   }  else{ birthdate.parentNode.removeAttribute('data-error-visible');
@@ -182,10 +182,10 @@ birthdate.addEventListener("keyup", () => {
 });
 birthdate.addEventListener("focusout", () => {
   verifAge();
-  if (!resultAge){
-    birthdate.parentNode.classList.remove("white");
-  } 
-  birthdate.parentNode.removeAttribute('data-error-visible');
+    if (!resultAge){
+      birthdate.parentNode.classList.remove("white");
+      birthdate.parentNode.setAttribute('data-error-visible',true);
+    }  
   });
 //
 
