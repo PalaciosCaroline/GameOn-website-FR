@@ -61,7 +61,7 @@ email.parentNode.setAttribute('data-error','l\'adresse email doit être valide')
 birthdate.parentNode.setAttribute('data-error','Vous devez entrer votre date de naissance et avoir au minimum 12ans.');
 quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être saisie');
 location1.parentNode.setAttribute('data-error','Vous devez choisir une option.');
-checkbox1.parentNode.setAttribute('data-error','Vous devez accepter les termes et conditions.');
+checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');
 
 //regex à respecter pour validation
 const nameRegex = new RegExp('^[a-z]{2,}', 'i');
