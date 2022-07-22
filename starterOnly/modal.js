@@ -17,6 +17,7 @@ let quantity = document.getElementById('quantity');
 let radios = document.querySelectorAll('input[name="location"]');
 let location1 = document.getElementById("location1");
 let checkbox1 = document.getElementById('checkbox1');
+const pageMain =  document.getElementById('pageMain');
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -24,6 +25,9 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+
+  document.body.classList.add("noscroll");
+  pageMain.style.display = "none";
   //rajout de réutilisation du formulaire après confirmation et fermeture
   messageVisible.style.display = 'none';
   document.getElementById('entry').classList.remove('invisibleForm');
@@ -35,9 +39,14 @@ function launchModal() {
 // Close modal event
 modalBtnClose.onclick = () => {
   modalbg.style.display = "none";
+  document.body.classList.remove("noscroll");
+  pageMain.style.display = "block";
+
 };
 document.getElementById('close2').onclick = () => {
+  document.body.classList.remove("noscroll");
   modalbg.style.display = "none";
+  pageMain.style.display = "block";
 };
 
 //Eviter propagation evenement
