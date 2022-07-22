@@ -237,7 +237,7 @@ if (!checkbox1.checked) {
  } else{ document.getElementById('checkbox1').parentNode.removeAttribute('data-error-visible');
  resultCgu = true;
 }};
-
+//avertissement si décochage cgu
 checkbox1.addEventListener("change", () => {
   verifCgu()
   if (!checkbox1.checked) {
