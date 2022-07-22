@@ -214,18 +214,25 @@ quantity.addEventListener("focusout", () => {
   }});
 //
 
-//verification checked locations
+
+//vérification si input checked du choix du tournois
+let resultLocations
+
 function verifLocations() {
-  for (const x of radios) {
-    if (x.checked) {
-      location1.parentNode.removeAttribute('data-error-visible');
-      resultLocations = true;
-        } else{ 
-        location1.parentNode.setAttribute('data-error-visible',true);
+if (!document.getElementById('location1').checked &&
+        !document.getElementById('location2').checked &&
+        !document.getElementById('location3').checked &&
+        !document.getElementById('location4').checked &&
+        !document.getElementById('location5').checked &&
+        !document.getElementById('location6').checked) {
+    document.getElementById('location1').parentNode.setAttribute('data-error-visible',true);
           resultLocations = false;
-}}};
+        } else{ document.getElementById('location1').parentNode.removeAttribute('data-error-visible');
+        resultLocations = true;
+}};
 //écoute des inputs des différents tournois 
 radios.forEach((input) => input.addEventListener("click", verifLocations));
+
 
 //verification cgu
 let resultCgu
