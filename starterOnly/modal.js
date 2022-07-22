@@ -55,10 +55,10 @@ document.getElementById("entry").addEventListener("submit", function(event){
 });
 
 //message d'erreur (en opacity = 0 avant ('data-error-visible',true))
-firstName.parentNode.setAttribute('data-error','Veuillez entrer 2 caractères ou plus pour le champ du prénom.');
-lastName.parentNode.setAttribute('data-error','Veuillez entrer 2 caractères ou plus pour le champ du nom.');
-email.parentNode.setAttribute('data-error','l\'adresse email doit être valide');
-birthdate.parentNode.setAttribute('data-error','Vous devez entrer votre date de naissance et avoir au minimum 12ans.');
+firstName.parentNode.setAttribute('data-error','Entrer 2 caractères minimum pour le champ du prénom.');
+lastName.parentNode.setAttribute('data-error','Entrer 2 caractères minimum pour le champ du nom.');
+email.parentNode.setAttribute('data-error','Une adresse email valide est requise');
+birthdate.parentNode.setAttribute('data-error','Veuillez entrer votre date de naissance');
 quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être saisie');
 location1.parentNode.setAttribute('data-error','Vous devez choisir une option.');
 checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');

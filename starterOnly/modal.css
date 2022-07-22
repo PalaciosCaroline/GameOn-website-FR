@@ -184,7 +184,7 @@ display: flex;
     position: relative;
     display: block;
     width: 240px;
-    margin-left: 10px;
+    margin-left: 15px;
     margin-top:-1px;
     text-align: center;
     background-color: #fff; 
@@ -198,8 +198,8 @@ display: flex;
   }
     
   .nav-ul{
-    width: 260px;
-    height: 180px; 
+    width: 268px;
+    height: 200px; 
     border-radius:3px;
     overflow: hidden;
     position: relative;
@@ -210,8 +210,8 @@ display: flex;
     content: "";
     position: absolute;
     inset: -80px;
-    background-image: conic-gradient(#FF0000 10deg,white 15deg,#FF0000 20deg,white 35deg,#FF0000 36deg,white 55deg,#FF0000 56deg,white 75deg,#FF0000 76deg, transparent 130deg);
-    animation: rotate 3s linear infinite; 
+    background-image: conic-gradient(#FF0000 10deg,#fff 10deg,#FF0000 15deg,#fff 35deg,#FF0000 37deg,#fff 55deg,#FF0000 57deg,#fff 75deg,#FF0000 77deg,#fff 95deg,#FF0000 97deg,#fff 115deg,#FF0000 117deg,#fff 135deg,#FF0000 137deg,#fff 155deg,#FF0000 157deg,transparent 200deg); 
+    animation: rotate 2.5s linear infinite; 
   }
   
   @keyframes rotate {
@@ -288,7 +288,7 @@ main {
 .content {
   margin: 5% auto;
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
   animation-name: modalopen;
   animation-duration: var(--modal-duration);
   background: #232323;
@@ -297,6 +297,7 @@ main {
   position: relative; 
   color: #fff; 
   padding-top: 10px;
+  box-shadow: 0 10px 8px rgba(8, 9, 13, 0.3);
 }
 
 @media (max-width: 980px) {
@@ -340,7 +341,7 @@ justify-content: space-between;
  text-align: center;
  flex-direction: column;
   height: 60%;
-  max-width: 500px;
+  max-width: 550px;
   width: 100%;
   font-size: 2.5rem;
   position: absolute;
@@ -361,7 +362,7 @@ label.checkbox-label{
   margin: 0 0 0 36px;
 }
 .text-label.tournois{
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 label {
@@ -389,13 +390,13 @@ input {
 
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.7em;
-  color: #e54858;
+  font-size: 0.8em;
+  color: #ff1e35;
   display: block; 
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   text-align: left;
-  line-height: 0.9;
+  line-height: 1;
   opacity: 0;
   transition: 0.3s;
 }
@@ -407,7 +408,7 @@ input {
   color:white;
 }
 .formData[data-error-visible="true"] .text-control {
-  border: 2px solid #e54858;
+  border: 2px solid #ff1e35;
 } 
 
 .checkbox-label,
@@ -417,7 +418,9 @@ input {
   font-size: 12px;
   font-weight: normal;
 }
-
+.checkbox2-label.label-cgu{
+  margin-top:17px;
+}
 .checkbox-icon {
   display: block;
   width: 20px;
@@ -433,7 +436,7 @@ input {
 }
 
 .redBorder{
-  border: 2px solid #ff0000;
+  border: 2px solid #ff1e35;
 }
 
 .checkbox-label .checkbox-icon::after,
@@ -465,7 +468,7 @@ input {
 }
 
 #span-cgu.colorred{
-  border : 2px solid red;
+  border : 2px solid #ff1e35;
 }
 
 .checkbox2-label .checkbox-icon {
@@ -514,7 +517,7 @@ input {
 .btn-signup {
   background: #fe142f;
   display: block;
-  margin:auto;  
+  margin: 5px auto 10px;  
   border-radius: 7px;
   padding: 12px 82px;
   color: #fff;
@@ -729,6 +732,18 @@ footer {
   }
 }
 @media screen and (max-width: 500px) {
+  .formData[data-error]::after {
+    font-size: 0.7em;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    line-height: 0.9;
+  }
+  .formData[data-error]::after {
+    font-size: 0.7rem;
+  }
+  .formData[data-error].cgu::after {
+    margin-top: 0px;
+  }
   .hero-headline {
     font-size: 2.3rem;
   }
