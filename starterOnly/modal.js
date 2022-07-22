@@ -23,6 +23,9 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+  //rajout de réutilisation du formulaire après confirmation et fermeture
+  messageVisible.style.display = 'none';
+  document.getElementById('entry').classList.remove('invisibleForm');
   //fermeture du menu nav
   hamburger.classList.remove("open");
   nav_ul.classList.remove("slide");
@@ -248,6 +251,8 @@ function validate() {
   if (!resultFirstName || !resultLastName || !resultEmail || !resultAge || !resultQuantity || !resultLocations || !resultCgu) {
     return false;
   } else{ 
+    messageVisible.style.display = 'flex';
+    document.getElementById('entry').classList.add('invisibleForm');
     return true;
   }
 }

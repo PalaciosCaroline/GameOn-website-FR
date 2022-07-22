@@ -311,6 +311,53 @@ main {
   margin: 15px auto;
 }
 
+.invisibleForm{
+  opacity : 0;
+}
+
+.btn-close{
+  margin-bottom: 30px;
+  background: #fe142f;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  width: 40%;
+  border-radius: 7px;
+  padding: 20px 40px;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+ }
+ 
+ #messageVisible { 
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  height: 60%;
+  max-width: 500px;
+  width: 100%;
+  font-size: 2.5rem;
+  position: absolute;
+  z-index : 99;
+  top:40%;
+ }
+ 
+ .formData:nth-child(1n+0):not(.formData.locations) {
+   height: 100px;
+ }
+ .formData.locations{
+   height:60px;
+ }
+ label:nth-child(6n+0) {
+   margin-top: 8px;
+ }
+ label.checkbox-label{
+   margin: 0 0 0 36px;
+ }
+ .text-label.tournois{
+   margin-top: 10px;
+ }
 
 label {
   font-family: var(--font-default);
