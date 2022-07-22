@@ -225,9 +225,9 @@ if (!document.getElementById('location1').checked &&
         !document.getElementById('location4').checked &&
         !document.getElementById('location5').checked &&
         !document.getElementById('location6').checked) {
-    document.getElementById('location1').parentNode.setAttribute('data-error-visible',true);
+        location1.parentNode.setAttribute('data-error-visible',true);
           resultLocations = false;
-        } else{ document.getElementById('location1').parentNode.removeAttribute('data-error-visible');
+        } else{ location1.parentNode.removeAttribute('data-error-visible');
         resultLocations = true;
 }};
 //écoute des inputs des différents tournois 
