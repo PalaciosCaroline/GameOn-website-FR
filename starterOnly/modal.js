@@ -31,9 +31,11 @@ function launchModal() {
   nav_ul.classList.remove("slide");
 }
 
-//là 
 // Close modal event
 modalBtnClose.onclick = () => {
+  modalbg.style.display = "none";
+};
+document.getElementById('close2').onclick = () => {
   modalbg.style.display = "none";
 };
 
@@ -75,7 +77,8 @@ firstName.addEventListener("keyup", () => {
   firstName.parentNode.setAttribute('data-error-visible',true);
   if (!resultFirstName){
     firstName.classList.remove("white");
-}});
+  } else { firstName.parentNode.removeAttribute('data-error-visible');}
+});
 
 firstName.addEventListener("focusout", () => {
   verifFirstName()
@@ -97,11 +100,12 @@ function verifLastName() {
 
 lastName.addEventListener("keyup", () => {
   verifLastName()
-    lastName.parentNode.classList.add("white");
-    lastName.parentNode.setAttribute('data-error-visible',true);
-  if (resultLastName){
-     lastName.parentNode.removeAttribute('data-error-visible');
-}});
+  lastName.parentNode.classList.add("white");
+  lastName.parentNode.setAttribute('data-error-visible',true);
+  if (!resultLastName){
+    lastName.classList.remove("white");
+  } else { lastName.parentNode.removeAttribute('data-error-visible');}
+});
 
 lastName.addEventListener("focusout", () => {
   verifLastName()
@@ -125,6 +129,7 @@ email.addEventListener("keyup", () => {
     email.parentNode.setAttribute('data-error-visible',true);
   if (resultEmail){
    email.parentNode.removeAttribute('data-error-visible');
+  } else { email.parentNode.removeAttribute('data-error-visible');
 }});
 email.addEventListener("focusout", () => {
   verifEmail()
@@ -135,7 +140,7 @@ email.addEventListener("focusout", () => {
 });
 //
 
-//érification age (age minimun à revoir non pris en compte)
+//vérification age (age minimun à revoir non pris en compte)
 let age
 function CalculAge() {  
   let today = new Date();
@@ -169,7 +174,8 @@ birthdate.addEventListener("keyup", () => {
     birthdate.parentNode.setAttribute('data-error-visible',true);
   if (resultAge){
     birthdate.parentNode.removeAttribute('data-error-visible'); 
-}});
+  } else { birthdate.parentNode.removeAttribute('data-error-visible');}
+});
 birthdate.addEventListener("focusout", () => {
   verifAge();
   if (!resultAge){
@@ -231,7 +237,7 @@ if (!checkbox1.checked) {
  resultCgu = true;
 }};
 
-checkbox1.addEventListener("focusout", () => {
+checkbox1.addEventListener("change", () => {
   verifCgu()
   if (!checkbox1.checked) {
     checkbox1.parentNode.setAttribute('data-error-visible',true);
@@ -252,7 +258,7 @@ function validate() {
     return false;
   } else{ 
     messageVisible.style.display = 'flex';
-    document.getElementById('entry').classList.add('invisibleForm');
+    form.classList.add('invisibleForm');
     return true;
   }
 }
