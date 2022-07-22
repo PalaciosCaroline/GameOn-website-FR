@@ -306,8 +306,6 @@ main {
   position: relative; 
   color: #fff; 
   padding-top: 10px;
-
-
 }
 
 @media (max-width: 980px) {
@@ -428,8 +426,8 @@ input {
   font-size: 12px;
   font-weight: normal;
 }
-.checkbox-label .checkbox-icon,
-.checkbox2-label .checkbox-icon {
+
+.checkbox-icon {
   display: block;
   width: 20px;
   height: 20px;
@@ -441,6 +439,10 @@ input {
   left: -30px;
   top: -1px;
   transition: 0.3s;
+}
+
+.redBorder{
+  border: 2px solid #ff0000;
 }
 .checkbox-label .checkbox-icon::after,
 .checkbox2-label .checkbox-icon::after {
@@ -458,6 +460,7 @@ input {
   transition: 0.3s;
   opacity: 0;
 }
+
 .checkbox-input {
   display: none;
 }
@@ -468,6 +471,11 @@ input {
 .checkbox-input:checked + .checkbox2-label .checkbox-icon {
   background: #279e7a;
 }
+
+#span-cgu.colorred{
+  border : 1px solid red;
+}
+
 .checkbox2-label .checkbox-icon {
   border-radius: 4px;
   border: 0;

@@ -15,6 +15,7 @@ let email = document.getElementById('email');
 let birthdate = document.getElementById('birthdate');
 let quantity = document.getElementById('quantity');
 let radios = document.querySelectorAll('input[name="location"]');
+
 let location1 = document.getElementById("location1");
 let checkbox1 = document.getElementById('checkbox1');
 const pageMain =  document.getElementById('pageMain');
@@ -226,6 +227,8 @@ quantity.addEventListener("focusout", () => {
 
 //vérification si input checked du choix du tournois
 let resultLocations
+const checkred = document.querySelectorAll('span.checkbox-icon');
+let checkr = document.querySelectorAll('span[class="checkbox-icon"]');
 
 function verifLocations() {
 if (!document.getElementById('location1').checked &&
@@ -235,8 +238,10 @@ if (!document.getElementById('location1').checked &&
         !document.getElementById('location5').checked &&
         !document.getElementById('location6').checked) {
         location1.parentNode.setAttribute('data-error-visible',true);
+        checkr.forEach((i) => i.classList.add('redBorder'));
           resultLocations = false;
         } else{ location1.parentNode.removeAttribute('data-error-visible');
+        checkr.forEach((i) => i.classList.remove('redBorder'));
         resultLocations = true;
 }};
 //écoute des inputs des différents tournois 
@@ -248,15 +253,18 @@ let resultCgu
 function verifCgu() {
 if (!checkbox1.checked) {
   checkbox1.parentNode.setAttribute('data-error-visible',true);
+  document.getElementById('span-cgu').classList.add('colorred');
   resultCgu = false;
  } else{ checkbox1.parentNode.removeAttribute('data-error-visible');
- resultCgu = true;
+  document.getElementById('span-cgu').classList.remove('colorred');
+  resultCgu = true;
 }};
 //avertissement si décochage cgu
 checkbox1.addEventListener("change", () => {
   verifCgu()
   if (!checkbox1.checked) {
     checkbox1.parentNode.setAttribute('data-error-visible',true);
+    document.getElementById('span-cgu').classList.add('colorred');
 }});
 
 //function de validation
