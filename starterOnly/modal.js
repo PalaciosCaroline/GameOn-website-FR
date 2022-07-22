@@ -15,9 +15,9 @@ let email = document.getElementById('email');
 let birthdate = document.getElementById('birthdate');
 let quantity = document.getElementById('quantity');
 let radios = document.querySelectorAll('input[name="location"]');
-
 let location1 = document.getElementById("location1");
 let checkbox1 = document.getElementById('checkbox1');
+let cgu = document.getElementById('span-cgu')
 const pageMain =  document.getElementById('pageMain');
 
 // launch modal event
@@ -26,13 +26,12 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
-
   document.body.classList.add("noscroll");
   pageMain.style.display = "none";
   //rajout de réutilisation du formulaire après confirmation et fermeture
   messageVisible.style.display = 'none';
   document.getElementById('entry').classList.remove('invisibleForm');
-  //fermeture du menu nav
+  //fermeture du menu nav si ouvert
   hamburger.classList.remove("open");
   nav_ul.classList.remove("slide");
 }
@@ -54,7 +53,6 @@ document.getElementById('close2').onclick = () => {
 document.getElementById("entry").addEventListener("submit", function(event){
   event.preventDefault();
 });
-
 
 //message d'erreur (en opacity = 0 avant ('data-error-visible',true))
 firstName.parentNode.setAttribute('data-error','Veuillez entrer 2 caractères ou plus pour le champ du prénom.');
@@ -195,8 +193,7 @@ birthdate.addEventListener("focusout", () => {
     if (!resultAge){
       birthdate.parentNode.classList.remove("white");
       birthdate.parentNode.setAttribute('data-error-visible',true);
-    }  
-  });
+}});
 //
 
 //verification quantity
@@ -221,9 +218,8 @@ quantity.addEventListener("focusout", () => {
   if (!resultQuantity) {
     quantity.parentNode.classList.remove("white");
     quantity.parentNode.setAttribute('data-error-visible',true);
-  }});
+}});
 //
-
 
 //vérification si input checked du choix du tournois
 let resultLocations
@@ -252,19 +248,19 @@ radios.forEach((input) => input.addEventListener("click", verifLocations));
 let resultCgu
 function verifCgu() {
 if (!checkbox1.checked) {
-  checkbox1.parentNode.setAttribute('data-error-visible',true);
-  document.getElementById('span-cgu').classList.add('colorred');
-  resultCgu = false;
+    checkbox1.parentNode.setAttribute('data-error-visible',true);
+    cgu.classList.add('colorred');
+    resultCgu = false;
  } else{ checkbox1.parentNode.removeAttribute('data-error-visible');
-  document.getElementById('span-cgu').classList.remove('colorred');
-  resultCgu = true;
+    cgu.classList.remove('colorred');
+    resultCgu = true;
 }};
 //avertissement si décochage cgu
 checkbox1.addEventListener("change", () => {
   verifCgu()
   if (!checkbox1.checked) {
     checkbox1.parentNode.setAttribute('data-error-visible',true);
-    document.getElementById('span-cgu').classList.add('colorred');
+    cgu.classList.add('colorred');
 }});
 
 //function de validation
