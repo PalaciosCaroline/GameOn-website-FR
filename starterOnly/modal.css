@@ -14,7 +14,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  background-image: url("background.png");
+  /* background-image: url("background.png"); */
   font-family: var(--font-default);
   font-size: 18px;
 }
@@ -180,10 +180,11 @@ display: flex;
   }
 
   .nav-ul li{
+    /* z-index:99; */
     position: relative;
     display: block;
     width: 240px;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-top:-1px;
     text-align: center;
     background-color: #fff; 
@@ -197,8 +198,8 @@ display: flex;
   }
     
   .nav-ul{
-    width: 268px;
-    height: 200px; 
+    width: 280px;
+    height: 210px; 
     border-radius:3px;
     overflow: hidden;
     position: relative;
@@ -209,14 +210,24 @@ display: flex;
     content: "";
     position: absolute;
     inset: -80px;
-    background-image: conic-gradient(#FF0000 10deg,#fff 10deg,#FF0000 15deg,#fff 35deg,#FF0000 37deg,#fff 55deg,#FF0000 57deg,#fff 75deg,#FF0000 77deg,#fff 95deg,#FF0000 97deg,#fff 115deg,#FF0000 117deg,#fff 135deg,#FF0000 137deg,#fff 155deg,#FF0000 157deg,transparent 200deg); 
-    animation: rotate 2.5s linear infinite; 
+    background-image: conic-gradient(#FF0000 10deg,white 15deg,#FF0000 20deg,white 35deg,#FF0000 36deg,white 55deg,#FF0000 56deg,white 75deg,#FF0000 76deg, transparent 130deg);
+    animation: rotate 3s linear infinite; 
   }
   
   @keyframes rotate {
     to{
         transform: rotate(-360deg);
     }
+  }
+  
+  .nav-ul::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    background-image: url(bomber.gif); 
+    background-repeat: no-repeat;
+    top : 155px;
+    left: 190px; 
   }
 }
 

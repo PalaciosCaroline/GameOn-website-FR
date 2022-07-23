@@ -21,6 +21,7 @@ let cgu = document.getElementById('span-cgu')
 const pageMain =  document.getElementById('pageMain');
 let heroSection = document.querySelector(".hero-section");
 let pageFooter = document.getElementById('pageFooter');
+let windowSize = window.innerWidth;
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -28,33 +29,29 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
   // document.body.classList.add("noscroll");
-  // pageMain.style.display = "none";
-  heroSection.style.display = 'none';
+  pageMain.style.display = "none";
+  // heroSection.style.display = 'none';
   pageFooter.style.display = "none";
   //rajout de réutilisation du formulaire après confirmation et fermeture
   messageVisible.style.display = 'none';
   document.getElementById('entry').classList.remove('invisibleForm');
 
   //fermeture du menu nav si ouvert
-  // hamburger.classList.remove("open");
-  // nav_ul.classList.remove("slide");
+  hamburger.classList.remove("open");
+  nav_ul.classList.remove("slide");
 }
 
 // Close modal event
 modalBtnClose.onclick = () => {
   modalbg.style.display = "none";
-  // document.body.classList.remove("noscroll");
-  heroSection.style.display = "grid";
   pageFooter.style.display = "block";
-
+  pageMain.style.display = 'block';
 };
 document.getElementById('close2').onclick = () => {
-  // document.body.classList.remove("noscroll");
-  modalbg.style.display = "none";
-  heroSection.style.display = "grid";
   pageFooter.style.display = "block";
+  pageMain.style.display = 'block';
+  modalbg.style.display = "none"; 
 };
-
 
 //Eviter propagation evenement
 document.getElementById("entry").addEventListener("submit", function(event){
@@ -75,7 +72,7 @@ const nameRegex = new RegExp('^[a-z]{2,}', 'i');
 const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const dateRegex = /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
 const numberRegex = /^[0-9]+$/;
-const birthRegex = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([1][26]|[2468][048]|[3579][26])00))))$/g;
+const regdate = /^(19[2-9]\d{1})|(20((0[0-9])|(1[0-1])))$/;
 
 
 //verification firstName
@@ -175,12 +172,13 @@ function CalculAge() {
   return age;
 }
 
+
 let resultAge;
-let isValidDate = Date.parse('birthdate');
+let isValidDate = new Date('birthdate');
 function verifAge() {
   // CalculAge();
   // if (!birthdate.value || age.value < 12 || age.value > 130) {
-  if (!birthdate.value || isNaN(isValidDate || !dateRegex.test(birthdate.value))) {
+  if (!birthdate.value) {
     birthdate.parentNode.setAttribute('data-error-visible',true);
       resultAge = false;
   }  else{ birthdate.parentNode.removeAttribute('data-error-visible');
