@@ -19,9 +19,9 @@ body {
   font-size: 18px;
 }
 
-.noscroll{
-  overflow:hidden; /*pr empècher le scroll lorsque nav en column*/
-}
+/* .noscroll{
+  overflow:hidden;
+} */
 
 p {
   margin-bottom: 0;
@@ -180,11 +180,10 @@ display: flex;
   }
 
   .nav-ul li{
-    z-index:99;
     position: relative;
     display: block;
     width: 240px;
-    margin-left: 15px;
+    margin-left: 10px;
     margin-top:-1px;
     text-align: center;
     background-color: #fff; 
@@ -221,11 +220,12 @@ display: flex;
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 550px) {
   .header-logo{
     width: 50vw;
   }
 }
+
 /*fin header*/
 
 main {
@@ -303,12 +303,15 @@ main {
 @media (max-width: 980px) {
   .content {
     margin-bottom: 20px;
-    top:50px;
   }
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .bground{
     background-color: unset;
+    position: relative;
+  }
+  .content {
+    margin-bottom: 0;
   }
 }
 
@@ -318,7 +321,7 @@ main {
 
 .modal-body {
   padding: 15px 8%;
-  margin: 15px auto;
+  margin: 15px auto 0;
 }
 
 .btn-close{
@@ -517,7 +520,7 @@ input {
 .btn-signup {
   background: #fe142f;
   display: block;
-  margin: 5px auto 10px;  
+  margin: 10px auto 10px;  
   border-radius: 7px;
   padding: 12px 82px;
   color: #fff;
@@ -743,6 +746,9 @@ footer {
   }
   .formData[data-error].cgu::after {
     margin-top: 0px;
+  }
+  .text-label.tournois{
+    margin-top: 19px;
   }
   .hero-headline {
     font-size: 2.3rem;

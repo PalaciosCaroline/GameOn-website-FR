@@ -19,35 +19,42 @@ let location1 = document.getElementById("location1");
 let checkbox1 = document.getElementById('checkbox1');
 let cgu = document.getElementById('span-cgu')
 const pageMain =  document.getElementById('pageMain');
-
+let heroSection = document.querySelector(".hero-section");
+let pageFooter = document.getElementById('pageFooter');
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
-  document.body.classList.add("noscroll");
-  pageMain.style.display = "none";
+  // document.body.classList.add("noscroll");
+  // pageMain.style.display = "none";
+  heroSection.style.display = 'none';
+  pageFooter.style.display = "none";
   //rajout de réutilisation du formulaire après confirmation et fermeture
   messageVisible.style.display = 'none';
   document.getElementById('entry').classList.remove('invisibleForm');
+
   //fermeture du menu nav si ouvert
-  hamburger.classList.remove("open");
-  nav_ul.classList.remove("slide");
+  // hamburger.classList.remove("open");
+  // nav_ul.classList.remove("slide");
 }
 
 // Close modal event
 modalBtnClose.onclick = () => {
   modalbg.style.display = "none";
-  document.body.classList.remove("noscroll");
-  pageMain.style.display = "block";
+  // document.body.classList.remove("noscroll");
+  heroSection.style.display = "block";
+  pageFooter.style.display = "block";
 
 };
 document.getElementById('close2').onclick = () => {
-  document.body.classList.remove("noscroll");
+  // document.body.classList.remove("noscroll");
   modalbg.style.display = "none";
-  pageMain.style.display = "block";
+  heroSection.style.display = "block";
+  pageFooter.style.display = "block";
 };
+
 
 //Eviter propagation evenement
 document.getElementById("entry").addEventListener("submit", function(event){
