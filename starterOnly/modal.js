@@ -44,14 +44,14 @@ function launchModal() {
 modalBtnClose.onclick = () => {
   modalbg.style.display = "none";
   // document.body.classList.remove("noscroll");
-  heroSection.style.display = "block";
+  heroSection.style.display = "grid";
   pageFooter.style.display = "block";
 
 };
 document.getElementById('close2').onclick = () => {
   // document.body.classList.remove("noscroll");
   modalbg.style.display = "none";
-  heroSection.style.display = "block";
+  heroSection.style.display = "grid";
   pageFooter.style.display = "block";
 };
 
