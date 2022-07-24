@@ -151,7 +151,7 @@ let resultEmail
 function verifEmail() {
   if (!testEmail()) {
       errorRedEmail();
-      resulEmailName = false;
+      resultEmail = false;
   }  else { resultEmail = true;}
 };
 
