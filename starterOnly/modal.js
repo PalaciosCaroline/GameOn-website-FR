@@ -84,7 +84,7 @@ document.getElementById('close2').onclick = closeModal;
 firstName.parentNode.setAttribute('data-error','Entrer 2 caractères minimum pour le champ du prénom.');
 lastName.parentNode.setAttribute('data-error','Entrer 2 caractères minimum pour le champ du nom.');
 email.parentNode.setAttribute('data-error','Une adresse email valide est requise');
-birthdate.parentNode.setAttribute('data-error','Entrer votre date de naissance,12ans minimun requis');
+birthdate.parentNode.setAttribute('data-error','Entrer votre date de naissance, 12ans minimun requis');
 quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être saisie');
 location1.parentNode.setAttribute('data-error','Vous devez choisir une option.');
 checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');
