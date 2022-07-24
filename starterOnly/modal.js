@@ -119,7 +119,7 @@ const errorWhiteLast = () => {lastName.parentNode.classList.add("white");
 let resultLastName
 //control on write
 lastName.addEventListener("keyup", () => {
-  errorWhiteFirst();
+  errorWhiteLast();
    if (test(lastName)) {noErrorLast();}
 });
 //control focusout
