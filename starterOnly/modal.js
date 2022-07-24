@@ -101,7 +101,6 @@ function verifFirstName() {
   if (!nameRegex.test(firstName.value)){
     firstName.parentNode.setAttribute('data-error-visible',true);
     resultFirstName = false;
-  
   }  else{ firstName.parentNode.removeAttribute('data-error-visible');
     resultFirstName = true;
 }};
