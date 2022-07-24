@@ -210,7 +210,7 @@ display: flex;
     content: "";
     position: absolute;
     inset: -80px;
-    background-image: conic-gradient(#FF0000 10deg,white 15deg,#FF0000 20deg,white 35deg,#FF0000 36deg,white 55deg,#FF0000 56deg,white 75deg,#FF0000 76deg, transparent 130deg);
+    background-image: conic-gradient(#FF0000 10deg,white 15deg,#FF0000 20deg,white 35deg,#FF0000 36deg,white 55deg,#FF0000 56deg,white 75deg,#FF0000 76deg,white 135deg,#FF0000 137deg,white 155deg,#FF0000 157deg,white 185deg,#FF0000 187deg,white 220deg,#FF0000 222deg,white 255deg,#FF0000 257deg,white 305deg,#FF0000 307deg,white 325deg,#FF0000 327deg);
     animation: rotate 3s linear infinite; 
   }
   

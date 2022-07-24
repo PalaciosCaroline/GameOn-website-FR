@@ -1,7 +1,30 @@
 hamburger.onclick = () => {
   hamburger.classList.toggle("open");
   nav_ul.classList.toggle("slide");
+  bruitunlocked();
 };
+
+//function bruitage
+function bruitunlocked(){
+  const bruitunlocked = new Audio();
+  bruitunlocked.src = "./bruit/unlocked.wav";
+  bruitunlocked.play();
+}
+function bruitachievement(){
+  const bruitachievement = new Audio();
+  bruitachievement.src = "./bruit/achievement.wav";
+  bruitachievement.play();
+}
+function bruitcongrats(){
+  const bruitcongrats = new Audio();
+  bruitcongrats.src = "./bruit/congrats.wav";
+  bruitcongrats.play();
+}
+function bruitrater(){
+  const bruitrater = new Audio();
+  bruitrater.src = "./bruit/rater.wav";
+  bruitrater.play();
+}
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
@@ -22,39 +45,38 @@ const pageMain =  document.getElementById('pageMain');
 let heroSection = document.querySelector(".hero-section");
 let pageFooter = document.getElementById('pageFooter');
 let windowSize = window.innerWidth;
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// launch modal form
+// launch modal open form
 function launchModal() {
+  bruitcongrats();
   modalbg.style.display = "block";
-  // document.body.classList.add("noscroll");
   pageMain.style.display = "none";
   // heroSection.style.display = 'none';
   pageFooter.style.display = "none";
   //rajout de réutilisation du formulaire après confirmation et fermeture
   messageVisible.style.display = 'none';
-  document.getElementById('entry').classList.remove('invisibleForm');
-
+  form.classList.remove('invisibleForm');
   //fermeture du menu nav si ouvert
   hamburger.classList.remove("open");
   nav_ul.classList.remove("slide");
 }
 
-// Close modal event
-modalBtnClose.onclick = () => {
+// close mmodal
+const closeModal = () => {
   modalbg.style.display = "none";
   pageFooter.style.display = "block";
   pageMain.style.display = 'block';
 };
-document.getElementById('close2').onclick = () => {
-  pageFooter.style.display = "block";
-  pageMain.style.display = 'block';
-  modalbg.style.display = "none"; 
-};
+
+// Close modal event
+modalBtnClose.onclick = closeModal;
+document.getElementById('close2').onclick = closeModal;
 
 //Eviter propagation evenement
-document.getElementById("entry").addEventListener("submit", function(event){
+  form.addEventListener("submit", function(event){
   event.preventDefault();
 });
 
@@ -62,7 +84,7 @@ document.getElementById("entry").addEventListener("submit", function(event){
 firstName.parentNode.setAttribute('data-error','Entrer 2 caractères minimum pour le champ du prénom.');
 lastName.parentNode.setAttribute('data-error','Entrer 2 caractères minimum pour le champ du nom.');
 email.parentNode.setAttribute('data-error','Une adresse email valide est requise');
-birthdate.parentNode.setAttribute('data-error','Veuillez entrer votre date de naissance');
+birthdate.parentNode.setAttribute('data-error','Entrer votre date de naissance,12ans minimun requis');
 quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être saisie');
 location1.parentNode.setAttribute('data-error','Vous devez choisir une option.');
 checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');
@@ -72,8 +94,6 @@ const nameRegex = new RegExp('^[a-z]{2,}', 'i');
 const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const dateRegex = /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
 const numberRegex = /^[0-9]+$/;
-const regdate = /^(19[2-9]\d{1})|(20((0[0-9])|(1[0-1])))$/;
-
 
 //verification firstName
 let resultFirstName
@@ -81,6 +101,7 @@ function verifFirstName() {
   if (!nameRegex.test(firstName.value)){
     firstName.parentNode.setAttribute('data-error-visible',true);
     resultFirstName = false;
+  
   }  else{ firstName.parentNode.removeAttribute('data-error-visible');
     resultFirstName = true;
 }};
@@ -90,6 +111,7 @@ firstName.addEventListener("keyup", () => {
   firstName.parentNode.classList.add("white");
   firstName.parentNode.setAttribute('data-error-visible',true);
   if (!resultFirstName){
+   
     firstName.classList.remove("white");
   } else { firstName.parentNode.removeAttribute('data-error-visible');}
 });
@@ -97,6 +119,7 @@ firstName.addEventListener("keyup", () => {
 firstName.addEventListener("focusout", () => {
   verifFirstName()
   if (!resultFirstName){
+    bruitrater();
     firstName.parentNode.classList.remove("white");
   }  
   // else{ firstName.parentNode.removeAttribute('data-error-visible');}
@@ -153,52 +176,41 @@ email.addEventListener("focusout", () => {
   }  
 });
 //
-
-//vérification age (age minimun à revoir non pris en compte)
-let age
-function CalculAge() {  
-  let today = new Date();
-  let dtn=document.getElementById('birthdate').value; // on lit la date de naissance
-  let an=dtn.substr(6,4); // l'année (les quatre premiers caractères de la chaîne à partir de 6)
-  let mois=dtn.substr(3,2);// On selectionne le mois de la date de naissance
-  let day= dtn.substr(0,2); // On selectionne la jour de la date de naissance
-  let dateNaissance = new Date(an + "-" + mois + "-" + day);
-  age = today.getFullYear() - dateNaissance.getFullYear();
-  let m = today.getMonth() - dateNaissance.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < dateNaissance.getDate())) {
-      age = age - 1;
-      return age;
-  }
-  return age;
-}
-
-
-let resultAge;
-let isValidDate = new Date('birthdate');
+let ageOk;
 function verifAge() {
-  // CalculAge();
-  // if (!birthdate.value || age.value < 12 || age.value > 130) {
-  if (!birthdate.value) {
+  const date = new Date(birthdate.value);
+  if (!(date instanceof Date) || isNaN(date) || !(birthdate.value)) {
     birthdate.parentNode.setAttribute('data-error-visible',true);
-      resultAge = false;
-  }  else{ birthdate.parentNode.removeAttribute('data-error-visible');
-      resultAge = true;
-}};
+    return ageOk = false;
+  }
+  const now = Date.now();
+  const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
+  const age = (now - date) / oneYear;
+  if (age < 12 || age > 130){  //the age to be verified
+    birthdate.parentNode.setAttribute('data-error-visible',true);
+    return ageOk = false;
+  }
+  birthdate.parentNode.removeAttribute('data-error-visible')
+  return ageOk = true;   
+};
+
 
 birthdate.addEventListener("keyup", () => {
-  verifAge();
     birthdate.parentNode.classList.add("white");
     birthdate.parentNode.setAttribute('data-error-visible',true);
-  if (!resultAge){
+    verifAge();
+  if (!ageOk){
     birthdate.classList.remove("white");
   } else { birthdate.parentNode.removeAttribute('data-error-visible');}
 });
+
 birthdate.addEventListener("focusout", () => {
   verifAge();
-    if (!resultAge){
+    if (!ageOk){
       birthdate.parentNode.classList.remove("white");
       birthdate.parentNode.setAttribute('data-error-visible',true);
 }});
+//
 //
 
 //verification quantity
@@ -279,11 +291,13 @@ function validate() {
   verifLocations();
   verifCgu();
 
-  if (!resultFirstName || !resultLastName || !resultEmail || !resultAge || !resultQuantity || !resultLocations || !resultCgu) {
+  if (!resultFirstName || !resultLastName || !resultEmail || !ageOk || !resultQuantity || !resultLocations || !resultCgu) {
+    bruitrater();
     return false;
   } else{ 
     messageVisible.style.display = 'flex';
     form.classList.add('invisibleForm');
+    bruitachievement();
     return true;
   }
 }
