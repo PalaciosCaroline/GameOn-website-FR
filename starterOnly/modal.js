@@ -20,11 +20,6 @@ function bruitcongrats(){
   bruitcongrats.src = "./bruit/congrats.wav";
   bruitcongrats.play();
 }
-function bruitrater(){
-  const bruitrater = new Audio();
-  bruitrater.src = "./bruit/rater.wav";
-  bruitrater.play();
-}
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
@@ -42,9 +37,7 @@ let location1 = document.getElementById("location1");
 let checkbox1 = document.getElementById('checkbox1');
 let cgu = document.getElementById('span-cgu')
 const pageMain =  document.getElementById('pageMain');
-let heroSection = document.querySelector(".hero-section");
 let pageFooter = document.getElementById('pageFooter');
-let windowSize = window.innerWidth;
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -54,15 +47,16 @@ function launchModal() {
   bruitcongrats();
   modalbg.style.display = "block";
   pageMain.style.display = "none";
-  // heroSection.style.display = 'none';
   pageFooter.style.display = "none";
   //rajout de réutilisation du formulaire après confirmation et fermeture
   messageVisible.style.display = 'none';
   form.classList.remove('invisibleForm');
-  //fermeture du menu nav si ouvert
-  hamburger.classList.remove("open");
-  nav_ul.classList.remove("slide");
-}
+  //close menu nav when form open
+    if (hamburger.classList.contains("open")){
+      hamburger.classList.remove("open");
+      nav_ul.classList.remove("slide");
+    }
+};
 
 // close mmodal
 const closeModal = () => {
@@ -81,184 +75,158 @@ document.getElementById('close2').onclick = closeModal;
 });
 
 //message d'erreur (en opacity = 0 avant ('data-error-visible',true))
-firstName.parentNode.setAttribute('data-error','Entrer 2 caractères minimum pour le champ du prénom.');
-lastName.parentNode.setAttribute('data-error','Entrer 2 caractères minimum pour le champ du nom.');
+firstName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le champ du prénom.');
+lastName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le champ du nom.');
 email.parentNode.setAttribute('data-error','Une adresse email valide est requise');
-birthdate.parentNode.setAttribute('data-error','Entrer votre date de naissance, 12ans minimun requis');
+birthdate.parentNode.setAttribute('data-error','Entrer votre date de naissance, 12ans minimum sont requis');
 quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être saisie');
 location1.parentNode.setAttribute('data-error','Vous devez choisir une option.');
 checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');
 
-//regex à respecter pour validation
-const nameRegex = new RegExp('^[a-z]{2,}', 'i');
+//regex of test
+const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]+[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]*[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]$/;
 const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const dateRegex = /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
 const numberRegex = /^[0-9]+$/;
 
-//verification firstName
-let resultFirstName
-function verifFirstName() {
-  if (!nameRegex.test(firstName.value)){
-    firstName.parentNode.setAttribute('data-error-visible',true);
-    resultFirstName = false;
-  }  else{ firstName.parentNode.removeAttribute('data-error-visible');
-    resultFirstName = true;
-}};
-
+//Control firstName
+const errorRedFirst =  () => {firstName.parentNode.setAttribute('data-error-visible',true);
+                              firstName.parentNode.classList.remove("white");}
+const noErrorFirst = () => firstName.parentNode.removeAttribute('data-error-visible');
+const errorWhiteFirst = () => {firstName.parentNode.classList.add("white");
+                      firstName.parentNode.setAttribute('data-error-visible',true);}
+const test = (name) => nameRegex.test(name.value);
+let resultFirstName;
+//control on write
 firstName.addEventListener("keyup", () => {
-  verifFirstName()
-  firstName.parentNode.classList.add("white");
-  firstName.parentNode.setAttribute('data-error-visible',true);
-  if (!resultFirstName){
-   
-    firstName.classList.remove("white");
-  } else { firstName.parentNode.removeAttribute('data-error-visible');}
+  errorWhiteFirst();
+   if (test(firstName)) {noErrorFirst();}
 });
-
-firstName.addEventListener("focusout", () => {
-  verifFirstName()
-  if (!resultFirstName){
-    bruitrater();
-    firstName.parentNode.classList.remove("white");
-  }  
-  // else{ firstName.parentNode.removeAttribute('data-error-visible');}
-});
-
-//verification lastName
+//control focusout
+firstName.addEventListener("focusout", () => {if (!test(firstName)) { errorRedFirst();}});
+//last control of input
+function verifFirstName() {
+  if (!test(firstName)) {
+    errorRedFirst();
+    resultFirstName = false;
+  }  else { resultFirstName = true;
+}};
+//Control lastName
+const errorRedLast =  () => {lastName.parentNode.setAttribute('data-error-visible', true);
+                 lastName.parentNode.classList.remove("white");}
+const noErrorLast = () => lastName.parentNode.removeAttribute('data-error-visible');
+const errorWhiteLast = () => {lastName.parentNode.classList.add("white");
+                      lastName.parentNode.setAttribute('data-error-visible',true);}
 let resultLastName
+//control on write
+lastName.addEventListener("keyup", () => {
+  errorWhiteFirst();
+   if (test(lastName)) {noErrorLast();}
+});
+//control focusout
+lastName.addEventListener("focusout", () => {if (!test(lastName)) { errorRedLast();}});
+//last control of input
 function verifLastName() {
-  if (!nameRegex.test(lastName.value)){
-    lastName.parentNode.setAttribute('data-error-visible',true);
-    resultLastName = false;
-  }  else{ lastName.parentNode.removeAttribute('data-error-visible');
-    resultLastName = true;
+  if (!test(lastName)) {
+  errorRedLast();
+  resultLastName = false;
+}  else { resultLastName = true;
 }};
 
-lastName.addEventListener("keyup", () => {
-  verifLastName()
-  lastName.parentNode.classList.add("white");
-  lastName.parentNode.setAttribute('data-error-visible',true);
-  if (!resultLastName){
-    lastName.classList.remove("white");
-  } else { lastName.parentNode.removeAttribute('data-error-visible');}
+//Control email
+const errorRedEmail =  () => {email.parentNode.setAttribute('data-error-visible',true);
+                            email.parentNode.classList.remove("white");}
+const noErrorEmail = () => email.parentNode.removeAttribute('data-error-visible');
+const errorWhiteEmail = () => {email.parentNode.classList.add("white");
+                          email.parentNode.setAttribute('data-error-visible',true);}
+const testEmail = () => email.value.match(mailRegex);
+//control on write
+email.addEventListener("keyup", () => {
+  errorWhiteEmail();
+  if (testEmail()) {noErrorEmail();}
 });
-
-lastName.addEventListener("focusout", () => {
-  verifLastName()
-  if (!resultLastName){
-    lastName.parentNode.classList.remove("white");   
-}});
-
-//verification email
+//control focusout
+email.addEventListener("focusout", () => {if (!testEmail()) { errorRedEmail();}});
+//last control of input
 let resultEmail
 function verifEmail() {
-  if (!email.value.match(mailRegex)) {
-      email.parentNode.setAttribute('data-error-visible',true);
+  if (!testEmail()) {
+      errorRedEmail();
       resulEmailName = false;
-  }  else{ email.parentNode.removeAttribute('data-error-visible');
-      resultEmail = true;}
-  };
+  }  else { resultEmail = true;}
+};
 
-email.addEventListener("keyup", () => {
-  verifEmail();
-  email.parentNode.classList.add("white");
-  email.parentNode.setAttribute('data-error-visible',true);
-  if (!resultEmail){
-    email.classList.remove("white");
-  } else { email.parentNode.removeAttribute('data-error-visible');}
-});
-email.addEventListener("focusout", () => {
-  verifEmail()
-  if (!resultEmail){
-    email.parentNode.classList.remove("white");
-    email.parentNode.setAttribute('data-error-visible',true);
-  }  
-});
-//
-let ageOk;
+//Control Age
+const errorRedAge =  () => {birthdate.parentNode.setAttribute('data-error-visible',true);
+                            birthdate.parentNode.classList.remove("white");}
+const noErrorAge = () => birthdate.parentNode.removeAttribute('data-error-visible');
+const errorWhiteAge = () => {birthdate.parentNode.classList.add("white");
+                              birthdate.parentNode.setAttribute('data-error-visible',true);}
+let resultAge;
+//Control if input ok
 function verifAge() {
   const date = new Date(birthdate.value);
-  if (!(date instanceof Date) || isNaN(date) || !(birthdate.value)) {
-    birthdate.parentNode.setAttribute('data-error-visible',true);
-    return ageOk = false;
-  }
+    if (!(date instanceof Date) || isNaN(date)) {
+      errorRedAge();
+      return resultAge = false;
+    }
   const now = Date.now();
   const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
   const age = (now - date) / oneYear;
-  if (age < 12 || age > 130){  //the age to be verified
-    birthdate.parentNode.setAttribute('data-error-visible',true);
-    return ageOk = false;
-  }
-  birthdate.parentNode.removeAttribute('data-error-visible')
-  return ageOk = true;   
+    if (age < 12 || age > 130){  //the age to be verified
+      errorRedAge();
+      return resultAge = false;
+    }
+  noErrorAge();
+  return resultAge = true;   
 };
-
-
-birthdate.addEventListener("keyup", () => {
-    birthdate.parentNode.classList.add("white");
-    birthdate.parentNode.setAttribute('data-error-visible',true);
-    verifAge();
-  if (!ageOk){
-    birthdate.classList.remove("white");
-  } else { birthdate.parentNode.removeAttribute('data-error-visible');}
-});
-
-birthdate.addEventListener("focusout", () => {
-  verifAge();
-    if (!ageOk){
-      birthdate.parentNode.classList.remove("white");
-      birthdate.parentNode.setAttribute('data-error-visible',true);
-}});
-//
+//control focus
+birthdate.addEventListener("focus", errorWhiteAge);
+//control focusout
+birthdate.addEventListener("focusout", verifAge);
 //
 
 //verification quantity
+const errorRedQuantity =  () => {quantity.parentNode.setAttribute('data-error-visible', true);
+                  quantity.parentNode.classList.remove("white");}
+const noErrorQuantity = () => quantity.parentNode.removeAttribute('data-error-visible');
+const errorWhiteQuantity = () => {quantity.parentNode.classList.add("white");
+                      quantity.parentNode.setAttribute('data-error-visible',true);}
+const testQuantity = () => (quantity.value.match(numberRegex))
+
+
 let resultQuantity
 function verifQuantity() {
-  if (!quantity.value || !quantity.value.match(numberRegex))  {
-    quantity.parentNode.setAttribute('data-error-visible',true);
+  if (!quantity.value || !testQuantity())  {
+    errorRedQuantity();
       resultQuantity = false;
-  }  else{ quantity.parentNode.removeAttribute('data-error-visible');
+  }  else{ noErrorQuantity();
       resultQuantity = true;
 }};
-
+//control on write
 quantity.addEventListener("keyup", () => {
-  verifQuantity()
-  quantity.parentNode.classList.add("white");
-  quantity.parentNode.setAttribute('data-error-visible',true);
-  if (!resultQuantity) {
-  }  else{ quantity.parentNode.removeAttribute('data-error-visible');
-}});
-quantity.addEventListener("focusout", () => {
-  verifQuantity()
-  if (!resultQuantity) {
-    quantity.parentNode.classList.remove("white");
-    quantity.parentNode.setAttribute('data-error-visible',true);
-}});
+  errorWhiteQuantity();
+   if (testQuantity()) {noErrorQuantity();}
+});
+//control focusout
+quantity.addEventListener("focusout", () => {if (!quantity.value || !test(lastName)) { errorRedQuantity();}});
 //
 
-//vérification si input checked du choix du tournois
-let resultLocations
-const checkred = document.querySelectorAll('span.checkbox-icon');
-let checkr = document.querySelectorAll('span[class="checkbox-icon"]');
-
+//choix du tournois 
+let checkBorder = document.querySelectorAll('span[class="checkbox-icon"]'); // border des inputs
+//vérification si input checked 
 function verifLocations() {
-if (!document.getElementById('location1').checked &&
-        !document.getElementById('location2').checked &&
-        !document.getElementById('location3').checked &&
-        !document.getElementById('location4').checked &&
-        !document.getElementById('location5').checked &&
-        !document.getElementById('location6').checked) {
+  const Locationchecked = document.querySelector(
+    "input[name='location']:checked");
+  if (Locationchecked == null) {
         location1.parentNode.setAttribute('data-error-visible',true);
-        checkr.forEach((i) => i.classList.add('redBorder'));
+        checkBorder.forEach((i) => i.classList.add('redBorder'));
           resultLocations = false;
         } else{ location1.parentNode.removeAttribute('data-error-visible');
-        checkr.forEach((i) => i.classList.remove('redBorder'));
+        checkBorder.forEach((i) => i.classList.remove('redBorder'));
         resultLocations = true;
 }};
-//écoute des inputs des différents tournois 
+//écoute si checked input sur un des tournois 
 radios.forEach((input) => input.addEventListener("click", verifLocations));
-
 
 //verification cgu
 let resultCgu
@@ -281,7 +249,7 @@ checkbox1.addEventListener("change", () => {
 
 //function de validation
 function validate() {
-  //variable 
+  //control of every inputs
   verifFirstName();
   verifLastName();
   verifEmail();
@@ -290,8 +258,7 @@ function validate() {
   verifLocations();
   verifCgu();
 
-  if (!resultFirstName || !resultLastName || !resultEmail || !ageOk || !resultQuantity || !resultLocations || !resultCgu) {
-    bruitrater();
+  if (!resultFirstName || !resultLastName || !resultEmail || !resultAge || !resultQuantity || !resultLocations || !resultCgu) {
     return false;
   } else{ 
     messageVisible.style.display = 'flex';
