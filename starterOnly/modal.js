@@ -193,7 +193,7 @@ const errorWhiteQuantity = () => {quantity.parentNode.classList.add("white");
                       quantity.parentNode.setAttribute('data-error-visible',true);}
 const testQuantity = () => (quantity.value.match(numberRegex))
 
-
+//Control final of this input
 let resultQuantity
 function verifQuantity() {
   if (!quantity.value || !testQuantity())  {
@@ -231,21 +231,17 @@ radios.forEach((input) => input.addEventListener("click", verifLocations));
 //verification cgu
 let resultCgu
 function verifCgu() {
-if (!checkbox1.checked) {
-    checkbox1.parentNode.setAttribute('data-error-visible',true);
+  if (!checkbox1.checked) {
+    checkbox1.parentNode.setAttribute('data-error-visible', true);
     cgu.classList.add('colorred');
     resultCgu = false;
- } else{ checkbox1.parentNode.removeAttribute('data-error-visible');
+ } else{
     cgu.classList.remove('colorred');
+    checkbox1.parentNode.removeAttribute('data-error-visible');
     resultCgu = true;
 }};
 //avertissement si décochage cgu
-checkbox1.addEventListener("change", () => {
-  verifCgu()
-  if (!checkbox1.checked) {
-    checkbox1.parentNode.setAttribute('data-error-visible',true);
-    cgu.classList.add('colorred');
-}});
+checkbox1.addEventListener("change", verifCgu);
 
 //function de validation
 function validate() {
