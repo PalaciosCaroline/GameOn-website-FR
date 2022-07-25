@@ -1,15 +1,9 @@
 hamburger.onclick = () => {
   hamburger.classList.toggle("open");
   nav_ul.classList.toggle("slide");
-  bruitunlocked();
 };
 
 //function bruitage
-function bruitunlocked(){
-  const bruitunlocked = new Audio();
-  bruitunlocked.src = "./bruit/unlocked.wav";
-  bruitunlocked.play();
-}
 function bruitachievement(){
   const bruitachievement = new Audio();
   bruitachievement.src = "./bruit/achievement.wav";
@@ -33,6 +27,7 @@ let email = document.getElementById('email');
 let birthdate = document.getElementById('birthdate');
 let quantity = document.getElementById('quantity');
 let radios = document.querySelectorAll('input[name="location"]');
+let checkBorder = document.querySelectorAll('span[class="checkbox-icon"]');// border des inputs
 let location1 = document.getElementById("location1");
 let checkbox1 = document.getElementById('checkbox1');
 let cgu = document.getElementById('span-cgu')
@@ -70,11 +65,9 @@ modalBtnClose.onclick = closeModal;
 document.getElementById('close2').onclick = closeModal;
 
 //Eviter propagation evenement
-  form.addEventListener("submit", function(event){
-  event.preventDefault();
-});
+  form.addEventListener("submit", (event) => { event.preventDefault();});
 
-//message d'erreur (en opacity = 0 avant ('data-error-visible',true))
+//Error messsage (opacity = 0 when 'data-error-visible' = true)
 firstName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le champ du prénom.');
 lastName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le champ du nom.');
 email.parentNode.setAttribute('data-error','Une adresse email valide est requise');
@@ -82,85 +75,98 @@ birthdate.parentNode.setAttribute('data-error','Entrer votre date de naissance, 
 quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être saisie');
 location1.parentNode.setAttribute('data-error','Vous devez choisir une option.');
 checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');
+//Writing red error messages
+const errorRedFirst =  () => {firstName.parentNode.setAttribute('data-error-visible',true);
+                              firstName.parentNode.classList.remove("white")};
+const errorRedLast =  () => {lastName.parentNode.setAttribute('data-error-visible', true);
+                              lastName.parentNode.classList.remove("white");}
+const errorRedEmail =  () => {email.parentNode.setAttribute('data-error-visible',true);
+                              email.parentNode.classList.remove("white");}
+const errorRedAge =  () => {birthdate.parentNode.setAttribute('data-error-visible',true);
+                              birthdate.parentNode.classList.remove("white");}   
+const errorRedQuantity =  () => {quantity.parentNode.setAttribute('data-error-visible', true);
+                              quantity.parentNode.classList.remove("white");}
+const errorRedLocation = () => {location1.parentNode.setAttribute('data-error-visible',true); 
+                          checkBorder.forEach((i) => i.classList.add('redBorder'));}
 
-//regex of test
+//writing white help messages
+const errorWhiteFirst = () => {firstName.parentNode.classList.add("white");
+                      firstName.parentNode.setAttribute('data-error-visible',true);}
+const errorWhiteLast = () => {lastName.parentNode.classList.add("white");
+                      lastName.parentNode.setAttribute('data-error-visible',true);}
+const errorWhiteEmail = () => {email.parentNode.classList.add("white");
+                      email.parentNode.setAttribute('data-error-visible',true);}
+const errorWhiteAge = () => {birthdate.parentNode.classList.add("white");
+                      birthdate.parentNode.setAttribute('data-error-visible',true);}
+const errorWhiteQuantity = () => {quantity.parentNode.classList.add("white");
+                      quantity.parentNode.setAttribute('data-error-visible',true);}
+
+//Deletion of messages
+const noErrorFirst = () => firstName.parentNode.removeAttribute('data-error-visible');
+const noErrorLast = () => lastName.parentNode.removeAttribute('data-error-visible');
+const noErrorEmail = () => email.parentNode.removeAttribute('data-error-visible');
+const noErrorAge = () => birthdate.parentNode.removeAttribute('data-error-visible');
+const noErrorQuantity = () => quantity.parentNode.removeAttribute('data-error-visible');
+const noErrorLocation = () => {location1.parentNode.removeAttribute('data-error-visible');
+        checkBorder.forEach((i) => i.classList.remove('redBorder'));}
+
+//regex and test 
 const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]+[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]*[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]$/;
 const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const numberRegex = /^[0-9]+$/;
+const test = (name) => nameRegex.test(name.value); //test for first and last name
+const testEmail = () => email.value.match(mailRegex);
 
 //Control firstName
-const errorRedFirst =  () => {firstName.parentNode.setAttribute('data-error-visible',true);
-                              firstName.parentNode.classList.remove("white");}
-const noErrorFirst = () => firstName.parentNode.removeAttribute('data-error-visible');
-const errorWhiteFirst = () => {firstName.parentNode.classList.add("white");
-                      firstName.parentNode.setAttribute('data-error-visible',true);}
-const test = (name) => nameRegex.test(name.value);
 let resultFirstName;
 //control on write
-firstName.addEventListener("keyup", () => {
-  errorWhiteFirst();
-   if (test(firstName)) {noErrorFirst();}
+firstName.addEventListener("keyup", () => { errorWhiteFirst();
+  test(firstName) ? noErrorFirst() : '' ;
 });
 //control focusout
-firstName.addEventListener("focusout", () => {if (!test(firstName)) { errorRedFirst();}});
+firstName.addEventListener("focusout", () => !test(firstName) ? errorRedFirst() : '');
 //last control of input
 function verifFirstName() {
   if (!test(firstName)) {
     errorRedFirst();
     resultFirstName = false;
-  }  else { resultFirstName = true;
-}};
+  }  
+  resultFirstName = true;
+};
+
 //Control lastName
-const errorRedLast =  () => {lastName.parentNode.setAttribute('data-error-visible', true);
-                 lastName.parentNode.classList.remove("white");}
-const noErrorLast = () => lastName.parentNode.removeAttribute('data-error-visible');
-const errorWhiteLast = () => {lastName.parentNode.classList.add("white");
-                      lastName.parentNode.setAttribute('data-error-visible',true);}
 let resultLastName
 //control on write
-lastName.addEventListener("keyup", () => {
-  errorWhiteLast();
-   if (test(lastName)) {noErrorLast();}
-});
+lastName.addEventListener("keyup", () => { errorWhiteLast();
+   test(lastName) ? noErrorLast() : '' });
 //control focusout
-lastName.addEventListener("focusout", () => {if (!test(lastName)) { errorRedLast();}});
+lastName.addEventListener("focusout", () => !test(lastName)? errorRedLast() : '');
 //last control of input
 function verifLastName() {
   if (!test(lastName)) {
   errorRedLast();
   resultLastName = false;
-}  else { resultLastName = true;
-}};
+  }  
+  resultLastName = true;
+};
 
 //Control email
-const errorRedEmail =  () => {email.parentNode.setAttribute('data-error-visible',true);
-                            email.parentNode.classList.remove("white");}
-const noErrorEmail = () => email.parentNode.removeAttribute('data-error-visible');
-const errorWhiteEmail = () => {email.parentNode.classList.add("white");
-                          email.parentNode.setAttribute('data-error-visible',true);}
-const testEmail = () => email.value.match(mailRegex);
-//control on write
-email.addEventListener("keyup", () => {
-  errorWhiteEmail();
-  if (testEmail()) {noErrorEmail();}
-});
-//control focusout
-email.addEventListener("focusout", () => {if (!testEmail()) { errorRedEmail();}});
-//last control of input
 let resultEmail
+//control on write
+email.addEventListener("keyup", () => { errorWhiteEmail();
+  (testEmail())? noErrorEmail() : ''});
+//control focusout
+email.addEventListener("focusout", () => !testEmail() ? errorRedEmail() : '');
+//last control of input
 function verifEmail() {
   if (!testEmail()) {
       errorRedEmail();
-      resultEmail = false;
-  }  else { resultEmail = true;}
+      resulEmailName = false;
+  }  
+  resultEmail = true;
 };
 
 //Control Age
-const errorRedAge =  () => {birthdate.parentNode.setAttribute('data-error-visible',true);
-                            birthdate.parentNode.classList.remove("white");}
-const noErrorAge = () => birthdate.parentNode.removeAttribute('data-error-visible');
-const errorWhiteAge = () => {birthdate.parentNode.classList.add("white");
-                              birthdate.parentNode.setAttribute('data-error-visible',true);}
 let resultAge;
 //Control if input ok
 function verifAge() {
@@ -183,67 +189,53 @@ function verifAge() {
 birthdate.addEventListener("focus", errorWhiteAge);
 //control focusout
 birthdate.addEventListener("focusout", verifAge);
-//
 
 //verification quantity
-const errorRedQuantity =  () => {quantity.parentNode.setAttribute('data-error-visible', true);
-                  quantity.parentNode.classList.remove("white");}
-const noErrorQuantity = () => quantity.parentNode.removeAttribute('data-error-visible');
-const errorWhiteQuantity = () => {quantity.parentNode.classList.add("white");
-                      quantity.parentNode.setAttribute('data-error-visible',true);}
-const testQuantity = () => (quantity.value.match(numberRegex))
-
-//Control final of this input
 let resultQuantity
+//Control if this input is ok
 function verifQuantity() {
-  if (!quantity.value || !testQuantity())  {
+  if (!quantity.value || !quantity.value.match(numberRegex))  {
     errorRedQuantity();
-      resultQuantity = false;
-  }  else{ noErrorQuantity();
-      resultQuantity = true;
+    resultQuantity = false;
+  }  else { noErrorQuantity();
+    resultQuantity = true;
 }};
 //control on write
-quantity.addEventListener("keyup", () => {
-  errorWhiteQuantity();
-   if (testQuantity()) {noErrorQuantity();}
-});
+quantity.addEventListener("keyup", errorWhiteQuantity);
 //control focusout
-quantity.addEventListener("focusout", () => {if (!quantity.value || !test(lastName)) { errorRedQuantity();}});
+quantity.addEventListener("focusout", verifQuantity);
 //
 
 //choix du tournois 
-let checkBorder = document.querySelectorAll('span[class="checkbox-icon"]'); // border des inputs
 //vérification si input checked 
 function verifLocations() {
   const Locationchecked = document.querySelector(
     "input[name='location']:checked");
   if (Locationchecked == null) {
-        location1.parentNode.setAttribute('data-error-visible',true);
-        checkBorder.forEach((i) => i.classList.add('redBorder'));
-          resultLocations = false;
-        } else{ location1.parentNode.removeAttribute('data-error-visible');
-        checkBorder.forEach((i) => i.classList.remove('redBorder'));
-        resultLocations = true;
+        errorRedLocation();
+        resultLocations = false;
+  } else { noErrorLocation();
+  resultLocations = true;
 }};
-//écoute si checked input sur un des tournois 
+//listen if a tournament is checked
 radios.forEach((input) => input.addEventListener("click", verifLocations));
 
-//verification cgu
+//Control cgu
 let resultCgu
 function verifCgu() {
-  if (!checkbox1.checked) {
-    checkbox1.parentNode.setAttribute('data-error-visible', true);
+if (!checkbox1.checked) {
+    checkbox1.parentNode.setAttribute('data-error-visible',true);
     cgu.classList.add('colorred');
     resultCgu = false;
- } else{
+ } 
+ else{ checkbox1.parentNode.removeAttribute('data-error-visible');
     cgu.classList.remove('colorred');
-    checkbox1.parentNode.removeAttribute('data-error-visible');
     resultCgu = true;
 }};
-//avertissement si décochage cgu
+//warning if uncheck cgu
 checkbox1.addEventListener("change", verifCgu);
 
-//function de validation
+//function of validation
 function validate() {
   //control of every inputs
   verifFirstName();
