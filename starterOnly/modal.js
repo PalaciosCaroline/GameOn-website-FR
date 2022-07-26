@@ -27,7 +27,7 @@ let email = document.getElementById('email');
 let birthdate = document.getElementById('birthdate');
 let quantity = document.getElementById('quantity');
 let radios = document.querySelectorAll('input[name="location"]');
-let checkBorder = document.querySelectorAll('span[class="checkbox-icon"]');// border des inputs
+let checkBorder = document.querySelectorAll('span[class="checkbox-icon"]');// border inputs
 let location1 = document.getElementById("location1");
 let checkbox1 = document.getElementById('checkbox1');
 let cgu = document.getElementById('span-cgu')
@@ -44,7 +44,7 @@ function launchModal() {
   pageMain.style.display = "none";
   pageFooter.style.display = "none";
   //rajout de réutilisation du formulaire après confirmation et fermeture
-  messageVisible.style.display = 'none';
+  messageEnvoi.style.display = 'none';
   form.classList.remove('invisibleForm');
   //close menu nav when form open
     if (hamburger.classList.contains("open")){
@@ -55,17 +55,17 @@ function launchModal() {
 
 // close mmodal
 const closeModal = () => {
-  modalbg.style.display = "none";
-  pageFooter.style.display = "block";
+  modalbg.style.display = "none"; 
   pageMain.style.display = 'block';
+  pageFooter.style.display = "block";
 };
 
 // Close modal event
 modalBtnClose.onclick = closeModal;
 document.getElementById('close2').onclick = closeModal;
 
-//Eviter propagation evenement
-  form.addEventListener("submit", (event) => { event.preventDefault();});
+//retain data when the form is incorrectly completed
+  form.addEventListener("submit", (event) => event.preventDefault());
 
 //Error messsage (opacity = 0 when 'data-error-visible' = true)
 firstName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le champ du prénom.');
@@ -111,7 +111,7 @@ const noErrorLocation = () => {location1.parentNode.removeAttribute('data-error-
         checkBorder.forEach((i) => i.classList.remove('redBorder'));}
 
 //regex and test 
-const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]+[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]*[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]$/;
+const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]{2,}$/;
 const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const numberRegex = /^[0-9]+$/;
 const test = (name) => nameRegex.test(name.value); //test for first and last name
@@ -207,6 +207,7 @@ quantity.addEventListener("focusout", verifQuantity);
 //
 
 //choix du tournois 
+let resultLocations 
 //vérification si input checked 
 function verifLocations() {
   const Locationchecked = document.querySelector(
@@ -249,7 +250,7 @@ function validate() {
   if (!resultFirstName || !resultLastName || !resultEmail || !resultAge || !resultQuantity || !resultLocations || !resultCgu) {
     return false;
   } else{ 
-    messageVisible.style.display = 'flex';
+    messageEnvoi.style.display = 'flex';
     form.classList.add('invisibleForm');
     bruitachievement();
     return true;
