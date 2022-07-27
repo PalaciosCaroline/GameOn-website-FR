@@ -9,11 +9,6 @@ function bruitachievement(){
   bruitachievement.src = "./bruit/achievement.wav";
   bruitachievement.play();
 }
-function bruitcongrats(){
-  const bruitcongrats = new Audio();
-  bruitcongrats.src = "./bruit/congrats.wav";
-  bruitcongrats.play();
-}
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
@@ -21,25 +16,24 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const modalBtnClose = document.querySelector(".close");
 const form = document.getElementById('entry')
-let firstName = document.getElementById('firstName');
-let lastName = document.getElementById('lastName');
-let email = document.getElementById('email');
-let birthdate = document.getElementById('birthdate');
-let quantity = document.getElementById('quantity');
-let radios = document.querySelectorAll('input[name="location"]');
-let checkBorder = document.querySelectorAll('span[class="checkbox-icon"]');// border inputs
-let location1 = document.getElementById("location1");
-let checkbox1 = document.getElementById('checkbox1');
-let cgu = document.getElementById('span-cgu')
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const email = document.getElementById('email');
+const birthdate = document.getElementById('birthdate');
+const quantity = document.getElementById('quantity');
+const radios = document.querySelectorAll('input[name="location"]');
+const checkBorder = document.querySelectorAll('span[class="checkbox-icon"]');// border inputs
+const location1 = document.getElementById("location1");
+const checkbox1 = document.getElementById('checkbox1');
+const cguBorder = document.getElementById('span-cgu')
 const pageMain =  document.getElementById('pageMain');
-let pageFooter = document.getElementById('pageFooter');
+const pageFooter = document.getElementById('pageFooter');
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // launch modal open form
 function launchModal() {
-  bruitcongrats();
   modalbg.style.display = "block";
   pageMain.style.display = "none";
   pageFooter.style.display = "none";
@@ -75,40 +69,27 @@ birthdate.parentNode.setAttribute('data-error','Entrer votre date de naissance, 
 quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être saisie');
 location1.parentNode.setAttribute('data-error','Vous devez choisir une option.');
 checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');
-//Writing red error messages
-const errorRedFirst =  () => {firstName.parentNode.setAttribute('data-error-visible',true);
-                              firstName.parentNode.classList.remove("white")};
-const errorRedLast =  () => {lastName.parentNode.setAttribute('data-error-visible', true);
-                              lastName.parentNode.classList.remove("white");}
-const errorRedEmail =  () => {email.parentNode.setAttribute('data-error-visible',true);
-                              email.parentNode.classList.remove("white");}
-const errorRedAge =  () => {birthdate.parentNode.setAttribute('data-error-visible',true);
-                              birthdate.parentNode.classList.remove("white");}   
-const errorRedQuantity =  () => {quantity.parentNode.setAttribute('data-error-visible', true);
-                              quantity.parentNode.classList.remove("white");}
-const errorRedLocation = () => {location1.parentNode.setAttribute('data-error-visible',true); 
-                          checkBorder.forEach((i) => i.classList.add('redBorder'));}
 
-//writing white help messages
-const errorWhiteFirst = () => {firstName.parentNode.classList.add("white");
-                      firstName.parentNode.setAttribute('data-error-visible',true);}
-const errorWhiteLast = () => {lastName.parentNode.classList.add("white");
-                      lastName.parentNode.setAttribute('data-error-visible',true);}
-const errorWhiteEmail = () => {email.parentNode.classList.add("white");
-                      email.parentNode.setAttribute('data-error-visible',true);}
-const errorWhiteAge = () => {birthdate.parentNode.classList.add("white");
-                      birthdate.parentNode.setAttribute('data-error-visible',true);}
-const errorWhiteQuantity = () => {quantity.parentNode.classList.add("white");
-                      quantity.parentNode.setAttribute('data-error-visible',true);}
-
-//Deletion of messages
-const noErrorFirst = () => firstName.parentNode.removeAttribute('data-error-visible');
-const noErrorLast = () => lastName.parentNode.removeAttribute('data-error-visible');
-const noErrorEmail = () => email.parentNode.removeAttribute('data-error-visible');
-const noErrorAge = () => birthdate.parentNode.removeAttribute('data-error-visible');
-const noErrorQuantity = () => quantity.parentNode.removeAttribute('data-error-visible');
-const noErrorLocation = () => {location1.parentNode.removeAttribute('data-error-visible');
-        checkBorder.forEach((i) => i.classList.remove('redBorder'));}
+//Writing red error message
+function errorRed(element){
+  element.parentNode.setAttribute('data-error-visible',true);
+  element.parentNode.classList.remove("white");
+  }
+  const redBorderLocation = () => checkBorder.forEach((i) => i.classList.add('colorred'));
+  const redBorderCgu = () => cguBorder.classList.add('colorred');
+  
+  //writing white help message
+  function errorWhite(element){
+    element.parentNode.classList.add("white");
+    element.parentNode.setAttribute('data-error-visible',true);
+  }
+  const errorWhiteAge = () => errorWhite(birthdate);
+  const errorWhiteQuantity = () => errorWhite(quantity);
+  
+  //Deletion of messages
+  const noError = (element) => element.parentNode.removeAttribute('data-error-visible');
+  const noBorderLocation = () => checkBorder.forEach((i) => i.classList.remove('colorred'));
+  const noBorderCgu = () => cguBorder.classList.remove('colorred');
 
 //regex and test 
 const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]{2,}$/;
@@ -120,15 +101,15 @@ const testEmail = () => email.value.match(mailRegex);
 //Control firstName
 let resultFirstName;
 //control on write
-firstName.addEventListener("keyup", () => { errorWhiteFirst();
-  test(firstName) ? noErrorFirst() : '' ;
+firstName.addEventListener("keyup", () => { errorWhite(firstName);
+  test(firstName) ? noError(firstName) : '' ;
 });
 //control focusout
-firstName.addEventListener("focusout", () => !test(firstName) ? errorRedFirst() : '');
+firstName.addEventListener("focusout", () => !test(firstName) ? errorRed(firstName) : '');
 //last control of input
 function verifFirstName() {
   if (!test(firstName)) {
-    errorRedFirst();
+    errorRed(firstName);
     resultFirstName = false;
   }  
   resultFirstName = true;
@@ -137,14 +118,14 @@ function verifFirstName() {
 //Control lastName
 let resultLastName
 //control on write
-lastName.addEventListener("keyup", () => { errorWhiteLast();
-   test(lastName) ? noErrorLast() : '' });
+lastName.addEventListener("keyup", () => { errorWhite(lastName);
+   test(lastName) ? noError(lastName) : '' });
 //control focusout
-lastName.addEventListener("focusout", () => !test(lastName)? errorRedLast() : '');
+lastName.addEventListener("focusout", () => !test(lastName)? errorRed(lastName) : '');
 //last control of input
 function verifLastName() {
   if (!test(lastName)) {
-  errorRedLast();
+  errorRed(lastName);
   resultLastName = false;
   }  
   resultLastName = true;
@@ -153,14 +134,14 @@ function verifLastName() {
 //Control email
 let resultEmail
 //control on write
-email.addEventListener("keyup", () => { errorWhiteEmail();
-  (testEmail())? noErrorEmail() : ''});
+email.addEventListener("keyup", () => { errorWhite(email);
+  (testEmail())? noError(email) : ''});
 //control focusout
-email.addEventListener("focusout", () => !testEmail() ? errorRedEmail() : '');
+email.addEventListener("focusout", () => !testEmail() ? errorRed(email) : '');
 //last control of input
 function verifEmail() {
   if (!testEmail()) {
-      errorRedEmail();
+      errorRed(email);
       resulEmailName = false;
   }  
   resultEmail = true;
@@ -172,17 +153,17 @@ let resultAge;
 function verifAge() {
   const date = new Date(birthdate.value);
     if (!(date instanceof Date) || isNaN(date)) {
-      errorRedAge();
+      errorRed(birthdate);
       return resultAge = false;
     }
   const now = Date.now();
   const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
   const age = (now - date) / oneYear;
     if (age < 12 || age > 130){  //the age to be verified
-      errorRedAge();
+      errorRed(birthdate);
       return resultAge = false;
     }
-  noErrorAge();
+  noError(birthdate);
   return resultAge = true;   
 };
 //control focus
@@ -194,10 +175,10 @@ birthdate.addEventListener("focusout", verifAge);
 let resultQuantity
 //Control if this input is ok
 function verifQuantity() {
-  if (!quantity.value || !quantity.value.match(numberRegex))  {
-    errorRedQuantity();
+  if (!quantity.value.match(numberRegex))  {
+    errorRed(quantity);
     resultQuantity = false;
-  }  else { noErrorQuantity();
+  }  else { noError(quantity);
     resultQuantity = true;
 }};
 //control on write
@@ -213,9 +194,9 @@ function verifLocations() {
   const Locationchecked = document.querySelector(
     "input[name='location']:checked");
   if (Locationchecked == null) {
-        errorRedLocation();
+        errorRed(location1); redBorderLocation();
         resultLocations = false;
-  } else { noErrorLocation();
+  } else { noError(location1); noBorderLocation();
   resultLocations = true;
 }};
 //listen if a tournament is checked
@@ -226,11 +207,13 @@ let resultCgu
 function verifCgu() {
 if (!checkbox1.checked) {
     checkbox1.parentNode.setAttribute('data-error-visible',true);
-    cgu.classList.add('colorred');
+    // cgu.classList.add('colorred');
+    redBorderCgu();
     resultCgu = false;
  } 
  else{ checkbox1.parentNode.removeAttribute('data-error-visible');
-    cgu.classList.remove('colorred');
+    // cgu.classList.remove('colorred');
+    noBorderCgu();
     resultCgu = true;
 }};
 //warning if uncheck cgu
