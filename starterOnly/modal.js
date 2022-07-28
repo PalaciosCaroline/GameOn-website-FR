@@ -141,7 +141,7 @@ function verifLastName() {
 function verifEmail() {
   if (!testEmail()) {
       errorRed(email);
-      resulEmailName = false;
+      resultEmail = false;
   }  else{
   resultEmail = true;
 }};
