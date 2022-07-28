@@ -173,7 +173,7 @@ display: flex;
     position: relative;
     display: block;
     width: 240px;
-    margin-left: 20px;
+    margin-left: 27px;
     margin-top:-1px;
     text-align: center;
     background-color: #fff; 
@@ -187,8 +187,8 @@ display: flex;
   }
     
   .nav-ul{
-    width: 280px;
-    height: 210px; 
+    width: 295px;
+    height: 195px; 
     border-radius:3px;
     overflow: hidden;
     position: relative;
@@ -209,15 +209,18 @@ display: flex;
     }
   }
   /*bomber man */
-  /* .nav-ul::after {
+   .nav-ul::after {
     content: "";
     position: absolute;
     inset: 1px;
-    background-image: url(bomber.gif); 
+    width: 50px;
+    background-image: url(dragon2.gif); 
     background-repeat: no-repeat;
-    top : 155px;
-    left: 197px; 
-  } */
+    /* top : 155px;
+    left: 197px;  */
+    top : 97px;
+    left: 2px; 
+  }
 }
 
 @media (max-width: 550px) {
