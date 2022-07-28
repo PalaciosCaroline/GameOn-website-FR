@@ -124,27 +124,27 @@ function verifFirstName() {
   if (!test(firstName)) {
     errorRed(firstName);
     resultFirstName = false;
-  }  
+  }  else {
   resultFirstName = true;
-};
+}};
 
 //Control lastName
 function verifLastName() {
   if (!test(lastName)) {
   errorRed(lastName);
   resultLastName = false;
-  }  
+  }  else{
   resultLastName = true;
-};
+}};
 
 //Control email
 function verifEmail() {
   if (!testEmail()) {
       errorRed(email);
       resulEmailName = false;
-  }  
+  }  else{
   resultEmail = true;
-};
+}};
 
 //Control Age
 function verifAge() {
