@@ -405,15 +405,20 @@ input {
   transition: 0.3s;
 }
 
-.formData[data-error-visible="true"]::after {
-  opacity: 1;
-}
-.formData[data-error-visible="true"].white::after {
+.formData[data-error].white::after {
   color:white;
+  opacity:1;
 }
-.formData[data-error-visible="true"] .text-control {
+
+.formData[data-error].red::after {
+  color:red;
+  opacity:1;
+}
+.formData[data-error].red .text-control {
   border: 2px solid #ff1e35;
+  opacity:1;
 } 
+
 
 .checkbox-label,
 .checkbox2-label {

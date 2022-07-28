@@ -16,14 +16,6 @@ const checkbox1 = document.getElementById('checkbox1');
 const cguBorder = document.getElementById('span-cgu')
 const pageMain =  document.getElementById('pageMain');
 const pageFooter = document.getElementById('pageFooter');
-//variable result of input validation
-let resultFirstName;
-let resultLastName;
-let resultEmail;
-let resultBirthdate;
-let resultQuantity;
-let resultLocations;
-let resultCgu;
 
 hamburger.onclick = () => {
   hamburger.classList.toggle("open");
@@ -62,7 +54,7 @@ document.getElementById('close2').onclick = closeModal;
 //retain data when the form is incorrectly completed
 form.addEventListener("submit", (event) => event.preventDefault());
 
-//Preparation of Error messsage (opacity = 0 when 'data-error-visible' = true)
+//Preparation of Error messsage (opacity = 0)
 firstName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le champ du prénom.');
 lastName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le champ du nom.');
 email.parentNode.setAttribute('data-error','Une adresse email valide est requise');
@@ -71,79 +63,64 @@ quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être 
 location1.parentNode.setAttribute('data-error','Vous devez choisir une option.');
 checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');
 
-//writing white help message
-function errorWhite(element){
-  element.parentNode.classList.add("white");
-  element.parentNode.setAttribute('data-error-visible',true);
-}
-const errorWhiteAge = () => errorWhite(birthdate); //retardment of message on focus
-const errorWhiteQuantity = () => errorWhite(quantity); //retardment of message on focus
+//writing white help message (color=white and opacity=1)
+const errorWhite = (element) =>{element.parentNode.classList = ("formData white");}
 
-//Writing red error message
-function errorRed(element){
-  element.parentNode.setAttribute('data-error-visible',true);
-  element.parentNode.classList.remove("white");
-}
+//Writing red error message (color=red and opacity=1)
+const errorRed = (element) => {element.parentNode.classList = ("formData red")};
 const redBorderLocation = () => checkBorder.forEach((i) => i.classList.add('colorred'));
 const redBorderCgu = () => cguBorder.classList.add('colorred');
   
 //Deletion of messages
-const noError = (element) => element.parentNode.removeAttribute('data-error-visible');
+const noError = (element) => element.parentNode.classList = ("formData");
 const noBorderLocation = () => checkBorder.forEach((i) => i.classList.remove('colorred'));
 const noBorderCgu = () => cguBorder.classList.remove('colorred');
 
 //regex and test 
 const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]{2,}$/;
-const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const test = (name) => nameRegex.test(name.value); //test for first and last name
-const testEmail = () => email.value.match(mailRegex);
+const test = (name) => nameRegex.test(name.value.trim()); //test for first and last name
+const testEmail = () => (email.value.trim()).match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+const testQuantity = () => quantity.value.match(/^[0-9]+$/);
+
+//variable result of input validation
+let resultFirstName;
+let resultLastName;
+let resultEmail;
+let resultBirthdate;
+let resultQuantity;
+let resultLocations;
+let resultCgu;
+resultFirstName = () => verif(firstName,test(firstName));
+resultLastName = () => verif(lastName,test(lastName));
+resultEmail = () => verif(email,testEmail());
+resultQuantity = () => verif(quantity,testQuantity());
 
 //help and control on write
-function testWrite(element){
-element.addEventListener("keyup", () => { errorWhite(element);
-  test(element) ? noError(element) : '' })};
-testWrite(firstName);
-testWrite(lastName);
-email.addEventListener("keyup", () => { errorWhite(email);
-         (testEmail())? noError(email) : ''});
-birthdate.addEventListener("focus", errorWhiteAge);
-quantity.addEventListener("keyup", errorWhiteQuantity);
+function textWhite(input,control){ errorWhite(input);
+  (control)? noError(input) : ''};
+firstName.addEventListener("keyup", () => textWhite(firstName,test(firstName)));
+lastName.addEventListener("keyup", () => textWhite(lastName,test(lastName)));
+email.addEventListener("keyup", () => textWhite(email,testEmail()));
+birthdate.addEventListener("focus", () => errorWhite(birthdate));
+quantity.addEventListener("keyup", () => textWhite(quantity,testQuantity()));
 radios.forEach((input) => input.addEventListener("click", verifLocations));//if change
 checkbox1.addEventListener("change", verifCgu);//warning if uncheck cgu
 
 //control focusout
-firstName.addEventListener("focusout", () => !test(firstName) ? errorRed(firstName) : '');
-lastName.addEventListener("focusout", () => !test(lastName)? errorRed(lastName) : '');
-email.addEventListener("focusout", () => !testEmail() ? errorRed(email) : '');
+firstName.addEventListener("focusout", () => verif(firstName,test(firstName)));
+lastName.addEventListener("focusout", () => verif(lastName,test(lastName)));
+email.addEventListener("focusout", () => verif(email,testEmail()));
 birthdate.addEventListener("focusout", verifAge);
-quantity.addEventListener("focusout", verifQuantity);
+quantity.addEventListener("focusout", () => verif(quantity,testQuantity()));
 
 //Control of input to Validate form
-//Control firstName
-function verifFirstName() {
-  if (!test(firstName)) {
-    errorRed(firstName);
-    resultFirstName = false;
-  }  else {
-  resultFirstName = true;
-}};
-
-//Control lastName
-function verifLastName() {
-  if (!test(lastName)) {
-  errorRed(lastName);
-  resultLastName = false;
-  }  else{
-  resultLastName = true;
-}};
-
-//Control email
-function verifEmail() {
-  if (!testEmail()) {
-      errorRed(email);
-      resultEmail = false;
-  }  else{
-  resultEmail = true;
+//Control firstName lastName email quantity
+function verif(name,control) {
+  if (!control) {
+    errorRed(name);
+    return false;
+  }  else { noError(name);
+  return true;
 }};
 
 //Control Age
@@ -164,19 +141,9 @@ function verifAge() {
   return resultBirthdate = true;   
 };
 
-//verification quantity
-function verifQuantity() {
-  if (!quantity.value.match(/^[0-9]+$/))  {
-    errorRed(quantity);
-    resultQuantity = false;
-  }  else { noError(quantity);
-    resultQuantity = true;
-}};
-
 //choix du tournois validate if input checked 
 function verifLocations() {
-  const Locationchecked = document.querySelector(
-    "input[name='location']:checked");
+  const Locationchecked = document.querySelector("input[name='location']:checked");
   if (Locationchecked == null) {
         errorRed(location1); redBorderLocation();
         resultLocations = false;
@@ -189,24 +156,22 @@ function verifCgu() {
 if (!checkbox1.checked) {
     errorRed(checkbox1); redBorderCgu();
     resultCgu = false;
- } 
- else{ noError(checkbox1); noBorderCgu();
+ } else{ noError(checkbox1); noBorderCgu();
     resultCgu = true;
 }};
-
 
 //form validation function
 function validate() {
   //control of every inputs
-  verifFirstName();
-  verifLastName();
-  verifEmail();
+  verif(firstName,test(firstName))
+  verif(lastName,test(lastName))
+  verif(email,testEmail())
+  verif(quantity,testQuantity())
   verifAge();
-  verifQuantity();
   verifLocations();
   verifCgu();
 
-  if (!resultFirstName || !resultLastName || !resultEmail || !resultBirthdate || !resultQuantity || !resultLocations || !resultCgu) {
+  if (!resultFirstName() || !resultLastName() || !resultEmail() || !resultBirthdate || !resultQuantity() || !resultLocations || !resultCgu) {
     return false;
   } else{ 
     messageEnvoi.style.display = 'flex';
