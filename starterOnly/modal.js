@@ -55,16 +55,17 @@ document.getElementById('close2').onclick = closeModal;
 form.addEventListener("submit", (event) => event.preventDefault());
 
 //Preparation of Error messsage (opacity = 0)
-firstName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le champ du prénom.');
-lastName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le champ du nom.');
-email.parentNode.setAttribute('data-error','Une adresse email valide est requise');
-birthdate.parentNode.setAttribute('data-error','Entrer votre date de naissance, 12ans minimum sont requis');
-quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être saisie');
-location1.parentNode.setAttribute('data-error','Veuillez choisir une option.');
-checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');
+const placeMessage = (input,message) => input.parentNode.setAttribute('data-error',message);
+placeMessage(firstName,'Entrer 2 lettres minimum pour le champ du prénom.')
+placeMessage(lastName,'Entrer 2 lettres minimum pour le champ du nom.')
+placeMessage(email,'Une adresse email valide est requise')
+placeMessage(birthdate,'Entrer votre date de naissance, 12ans minimum sont requis')
+placeMessage(quantity,'Une valeur numérique doit être saisie')
+placeMessage(location1,'Veuillez choisir une option.')
+placeMessage(checkbox1,'Veuillez vérifier que vous acceptez bien les termes et conditions.')
 
 //writing white help message (color=white and opacity=1)
-const errorWhite = (element) =>{element.parentNode.classList = ("formData white");}
+const errorWhite = (element) => {element.parentNode.classList = ("formData white");}
 
 //Writing red error message (color=red and opacity=1)
 const errorRed = (element) => {element.parentNode.classList = ("formData red")};
@@ -85,10 +86,8 @@ const testBirthdate = () => { const date = new Date(birthdate.value);
           const now = Date.now();
           const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
           const age = (now - date) / oneYear;
-    if (!(date instanceof Date) || isNaN(date) || age < 12 || age > 130){ 
-      return false;
-    } else {return true;
-}};
+          if (!(date instanceof Date) || isNaN(date) || age < 12 || age > 130){ return false;
+          } else {return true;}};
 
 //variable result of input validation
 let resultFirstName = () => verif(firstName,test(firstName));
@@ -101,7 +100,7 @@ let resultCgu;
 
 //help and control on write
 function textWhite(input,control){ errorWhite(input);
-  (control)? noError(input) : ''};
+              (control)? noError(input) : ''};
 firstName.addEventListener("keyup", () => textWhite(firstName,test(firstName)));
 lastName.addEventListener("keyup", () => textWhite(lastName,test(lastName)));
 email.addEventListener("keyup", () => textWhite(email,testEmail()));
@@ -118,16 +117,15 @@ birthdate.addEventListener("focusout", () => verif(birthdate,testBirthdate()));
 quantity.addEventListener("focusout", () => verif(quantity,testQuantity()));
 
 //Control of input to Validate form
-//Control firstName lastName email quantity birthdate
+//Control firstName, lastName, email, quantity, and birthdate
 function verif(name,control) {
-  if (!control) {
-    errorRed(name);
+  if (!control) { errorRed(name);
     return false;
   }  else { noError(name);
   return true;
 }};
 
-//choice of tournement, validate if input checked 
+//Control of choice of tournement, validate if input checked 
 function verifLocations() {
   const Locationchecked = document.querySelector("input[name='location']:checked");
   if (Locationchecked == null) {
