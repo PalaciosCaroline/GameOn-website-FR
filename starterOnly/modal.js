@@ -60,7 +60,7 @@ lastName.parentNode.setAttribute('data-error','Entrer 2 lettres minimum pour le 
 email.parentNode.setAttribute('data-error','Une adresse email valide est requise');
 birthdate.parentNode.setAttribute('data-error','Entrer votre date de naissance, 12ans minimum sont requis');
 quantity.parentNode.setAttribute('data-error','Une valeur numérique doit être saisie');
-location1.parentNode.setAttribute('data-error','Vous devez choisir une option.');
+location1.parentNode.setAttribute('data-error','Veuillez choisir une option.');
 checkbox1.parentNode.setAttribute('data-error','Veuillez vérifier que vous acceptez bien les termes et conditions.');
 
 //writing white help message (color=white and opacity=1)
@@ -81,19 +81,23 @@ const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüý
 const test = (name) => nameRegex.test(name.value.trim()); //test for first and last name
 const testEmail = () => (email.value.trim()).match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
 const testQuantity = () => quantity.value.match(/^[0-9]+$/);
+const testBirthdate = () => { const date = new Date(birthdate.value);
+          const now = Date.now();
+          const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
+          const age = (now - date) / oneYear;
+    if (!(date instanceof Date) || isNaN(date) || age < 12 || age > 130){ 
+      return false;
+    } else {return true;
+}};
 
 //variable result of input validation
-let resultFirstName;
-let resultLastName;
-let resultEmail;
-let resultBirthdate;
-let resultQuantity;
+let resultFirstName = () => verif(firstName,test(firstName));
+let resultLastName = () => verif(lastName,test(lastName));
+let resultEmail = () => verif(email,testEmail());
+let resultBirthdate = () => verif(birthdate,testBirthdate());
+let resultQuantity = () => verif(quantity,testQuantity());
 let resultLocations;
 let resultCgu;
-resultFirstName = () => verif(firstName,test(firstName));
-resultLastName = () => verif(lastName,test(lastName));
-resultEmail = () => verif(email,testEmail());
-resultQuantity = () => verif(quantity,testQuantity());
 
 //help and control on write
 function textWhite(input,control){ errorWhite(input);
@@ -101,7 +105,7 @@ function textWhite(input,control){ errorWhite(input);
 firstName.addEventListener("keyup", () => textWhite(firstName,test(firstName)));
 lastName.addEventListener("keyup", () => textWhite(lastName,test(lastName)));
 email.addEventListener("keyup", () => textWhite(email,testEmail()));
-birthdate.addEventListener("focus", () => errorWhite(birthdate));
+birthdate.addEventListener("keyup", () => textWhite(birthdate,testBirthdate()));
 quantity.addEventListener("keyup", () => textWhite(quantity,testQuantity()));
 radios.forEach((input) => input.addEventListener("click", verifLocations));//if change
 checkbox1.addEventListener("change", verifCgu);//warning if uncheck cgu
@@ -110,11 +114,11 @@ checkbox1.addEventListener("change", verifCgu);//warning if uncheck cgu
 firstName.addEventListener("focusout", () => verif(firstName,test(firstName)));
 lastName.addEventListener("focusout", () => verif(lastName,test(lastName)));
 email.addEventListener("focusout", () => verif(email,testEmail()));
-birthdate.addEventListener("focusout", verifAge);
+birthdate.addEventListener("focusout", () => verif(birthdate,testBirthdate()));
 quantity.addEventListener("focusout", () => verif(quantity,testQuantity()));
 
 //Control of input to Validate form
-//Control firstName lastName email quantity
+//Control firstName lastName email quantity birthdate
 function verif(name,control) {
   if (!control) {
     errorRed(name);
@@ -123,25 +127,7 @@ function verif(name,control) {
   return true;
 }};
 
-//Control Age
-function verifAge() {
-  const date = new Date(birthdate.value);
-    if (!(date instanceof Date) || isNaN(date)) {
-      errorRed(birthdate);
-      return resultBirthdate = false;
-    }
-  const now = Date.now();
-  const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
-  const age = (now - date) / oneYear;
-    if (age < 12 || age > 130){  //the age to be verified
-      errorRed(birthdate);
-      return resultBirthdate = false;
-    }
-  noError(birthdate);
-  return resultBirthdate = true;   
-};
-
-//choix du tournois validate if input checked 
+//choice of tournement, validate if input checked 
 function verifLocations() {
   const Locationchecked = document.querySelector("input[name='location']:checked");
   if (Locationchecked == null) {
@@ -151,7 +137,7 @@ function verifLocations() {
   resultLocations = true;
 }};
 
-//Control cgu
+//Control cgu checked
 function verifCgu() {
 if (!checkbox1.checked) {
     errorRed(checkbox1); redBorderCgu();
@@ -163,15 +149,14 @@ if (!checkbox1.checked) {
 //form validation function
 function validate() {
   //control of every inputs
-  verif(firstName,test(firstName))
-  verif(lastName,test(lastName))
-  verif(email,testEmail())
-  verif(quantity,testQuantity())
-  verifAge();
+  verif(firstName,test(firstName));
+  verif(lastName,test(lastName));
+  verif(email,testEmail());
+  verif(quantity,testQuantity());
+  verif(birthdate,testBirthdate());
   verifLocations();
   verifCgu();
-
-  if (!resultFirstName() || !resultLastName() || !resultEmail() || !resultBirthdate || !resultQuantity() || !resultLocations || !resultCgu) {
+  if (!resultFirstName() || !resultLastName() || !resultEmail() || !resultBirthdate() || !resultQuantity() || !resultLocations || !resultCgu) {
     return false;
   } else{ 
     messageEnvoi.style.display = 'flex';
