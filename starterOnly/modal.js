@@ -16,6 +16,7 @@ const checkbox1 = document.getElementById('checkbox1');
 const cguBorder = document.getElementById('span-cgu')
 const pageMain =  document.getElementById('pageMain');
 const pageFooter = document.getElementById('pageFooter');
+const textControl = document.querySelectorAll('.text-control');
 
 hamburger.onclick = () => {
   hamburger.classList.toggle("open");
@@ -79,49 +80,32 @@ const noBorderCgu = () => cguBorder.classList.remove('colorred');
 
 //regex and test 
 const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]{2,}$/;
-const test = (name) => nameRegex.test(name.value.trim()); //test for first and last name
-const testEmail = () => (email.value.trim()).match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
-const testQuantity = () => quantity.value.match(/^[0-9]+$/);
-const testBirthdate = () => { const date = new Date(birthdate.value);
-          const now = Date.now();
-          const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
-          const age = (now - date) / oneYear;
-          if (!(date instanceof Date) || isNaN(date) || age < 12 || age > 130){ return false;
-          } else {return true;}};
-
-//variable result of input validation
-let resultFirstName = () => verif(firstName,test(firstName));
-let resultLastName = () => verif(lastName,test(lastName));
-let resultEmail = () => verif(email,testEmail());
-let resultBirthdate = () => verif(birthdate,testBirthdate());
-let resultQuantity = () => verif(quantity,testQuantity());
-let resultLocations;
-let resultCgu;
+function giveTest(id) {
+if (id == 'firstName'){return nameRegex.test(firstName.value.trim())}
+else if (id == 'lastName'){return nameRegex.test(lastName.value.trim())}
+else if (id == 'email') { return (email.value.trim()).match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)}
+else if (id == 'quantity') { return quantity.value.match(/^[0-9]+$/)}
+else if (id == 'birthdate') {const date = new Date(birthdate.value);
+  const now = Date.now();
+  const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
+  const age = (now - date) / oneYear;
+  if (!(date instanceof Date) || isNaN(date) || age < 12 || age > 130){ return false;
+  } else {return true;}}
+}
 
 //help and control on write
-function textWhite(input,control){ errorWhite(input);
-              (control)? noError(input) : ''};
-firstName.addEventListener("keyup", () => textWhite(firstName,test(firstName)));
-lastName.addEventListener("keyup", () => textWhite(lastName,test(lastName)));
-email.addEventListener("keyup", () => textWhite(email,testEmail()));
-birthdate.addEventListener("keyup", () => textWhite(birthdate,testBirthdate()));
-quantity.addEventListener("keyup", () => textWhite(quantity,testQuantity()));
+textControl.forEach((input) => input.addEventListener("keyup", function() {errorWhite(input); (giveTest(this.id))? noError(input) : ''}));
 radios.forEach((input) => input.addEventListener("click", verifLocations));//if change
 checkbox1.addEventListener("change", verifCgu);//warning if uncheck cgu
 
 //control focusout
-firstName.addEventListener("focusout", () => verif(firstName,test(firstName)));
-lastName.addEventListener("focusout", () => verif(lastName,test(lastName)));
-email.addEventListener("focusout", () => verif(email,testEmail()));
-birthdate.addEventListener("focusout", () => verif(birthdate,testBirthdate()));
-quantity.addEventListener("focusout", () => verif(quantity,testQuantity()));
+textControl.forEach((input) => input.addEventListener("focusout", function() {(giveTest(this.id))? noError(input) : errorRed(input)}));
 
-//Control of input to Validate form
 //Control firstName, lastName, email, quantity, and birthdate
-function verif(name,control) {
-  if (!control) { errorRed(name);
+function verif(input) {
+  if (!giveTest(input.id)) { errorRed(input);
     return false;
-  }  else { noError(name);
+  }  else { noError(input);
   return true;
 }};
 
@@ -147,14 +131,14 @@ if (!checkbox1.checked) {
 //form validation function
 function validate() {
   //control of every inputs
-  verif(firstName,test(firstName));
-  verif(lastName,test(lastName));
-  verif(email,testEmail());
-  verif(quantity,testQuantity());
-  verif(birthdate,testBirthdate());
+  verif(firstName);
+  verif(lastName);
+  verif(email);
+  verif(quantity);
+  verif(birthdate);
   verifLocations();
   verifCgu();
-  if (!resultFirstName() || !resultLastName() || !resultEmail() || !resultBirthdate() || !resultQuantity() || !resultLocations || !resultCgu) {
+  if (!verif(firstName) || !verif(lastName) || !verif(email) || !verif(quantity) || !verif(birthdate) || !resultLocations || !resultCgu) {
     return false;
   } else{ 
     messageEnvoi.style.display = 'flex';
