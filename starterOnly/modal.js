@@ -10,7 +10,7 @@ const email = document.getElementById('email');
 const birthdate = document.getElementById('birthdate');
 const quantity = document.getElementById('quantity');
 const radios = document.querySelectorAll('input[name="location"]');
-const checkBorder = document.querySelectorAll('span[class="checkbox-icon"]');
+const checkBorder = document.querySelectorAll('.locations > .checkbox-label > span[class="checkbox-icon"]');
 const location1 = document.getElementById("location1");
 const checkbox1 = document.getElementById('checkbox1');
 const cguBorder = document.getElementById('span-cgu')
@@ -70,13 +70,16 @@ const errorWhite = (element) => {element.parentNode.classList = ("formData white
 
 //Writing red error message (color=red and opacity=1)
 const errorRed = (element) => {element.parentNode.classList = ("formData red")};
-const redBorderLocation = () => checkBorder.forEach((i) => i.classList.add('colorred'));
-const redBorderCgu = () => cguBorder.classList.add('colorred');
-  
+function redBorder(input) {
+  if(input == 'location1') {return checkBorder.forEach((i) => i.classList.add('colorred'))}
+  else if (input == 'checkbox1') {return cguBorder.classList.add('colorred')}
+}  
 //Deletion of messages
 const noError = (element) => element.parentNode.classList = ("formData");
-const noBorderLocation = () => checkBorder.forEach((i) => i.classList.remove('colorred'));
-const noBorderCgu = () => cguBorder.classList.remove('colorred');
+function noBorder(input) {
+  if (input == 'location1') {return checkBorder.forEach((i) => i.classList.remove('colorred'))}
+  else if (input == 'checkbox1') {return cguBorder.classList.remove('colorred')}
+}
 
 //regex and test 
 const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]{2,}$/;
@@ -91,54 +94,36 @@ else if (id == 'birthdate') {const date = new Date(birthdate.value);
   const age = (now - date) / oneYear;
   if (!(date instanceof Date) || isNaN(date) || age < 12 || age > 130){ return false;
   } else {return true;}}
+else if (id == 'location1') {const Locationchecked = document.querySelector("input[name='location']:checked");return Locationchecked !== null} 
+else if (id == 'checkbox1') {return checkbox1.checked}
 }
 
 //help and control on write
 textControl.forEach((input) => input.addEventListener("keyup", function() {errorWhite(input); (giveTest(this.id))? noError(input) : ''}));
-radios.forEach((input) => input.addEventListener("click", verifLocations));//if change
-checkbox1.addEventListener("change", verifCgu);//warning if uncheck cgu
+radios.forEach((input) => input.addEventListener("change", () => verif(location1)));//if change
+checkbox1.addEventListener("change", () => verif(checkbox1));//warning if uncheck cgu
 
 //control focusout
 textControl.forEach((input) => input.addEventListener("focusout", function() {(giveTest(this.id))? noError(input) : errorRed(input)}));
 
-//Control firstName, lastName, email, quantity, and birthdate
+//Control firstName, lastName, email, quantity, birthdate, location of tournement and cgu
 function verif(input) {
   if (!giveTest(input.id)) { errorRed(input);
+    if (input == location1 || input == checkbox1) {redBorder(input.id);}
     return false;
   }  else { noError(input);
+    if (input == location1 || input == checkbox1) {noBorder(input.id);}
   return true;
-}};
-
-//Control of choice of tournement, validate if input checked 
-function verifLocations() {
-  const Locationchecked = document.querySelector("input[name='location']:checked");
-  if (Locationchecked == null) {
-        errorRed(location1); redBorderLocation();
-        resultLocations = false;
-  } else { noError(location1); noBorderLocation();
-  resultLocations = true;
-}};
-
-//Control cgu checked
-function verifCgu() {
-if (!checkbox1.checked) {
-    errorRed(checkbox1); redBorderCgu();
-    resultCgu = false;
- } else{ noError(checkbox1); noBorderCgu();
-    resultCgu = true;
 }};
 
 //form validation function
 function validate() {
   //control of every inputs
-  verif(firstName);
-  verif(lastName);
-  verif(email);
-  verif(quantity);
-  verif(birthdate);
-  verifLocations();
-  verifCgu();
-  if (!verif(firstName) || !verif(lastName) || !verif(email) || !verif(quantity) || !verif(birthdate) || !resultLocations || !resultCgu) {
+  let i=0
+  for(let input of textControl) { verif(input); if(verif(input) == false){i++}}
+  verif(location1); //validate if one input location is checked
+  verif(checkbox1); 
+  if (i > 0  || !verif(location1) || !verif(checkbox1)) {
     return false;
   } else{ 
     messageEnvoi.style.display = 'flex';
