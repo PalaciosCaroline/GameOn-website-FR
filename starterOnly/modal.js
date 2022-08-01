@@ -41,7 +41,7 @@ function launchModal() {
     }
 };
 
-// close mmodal
+// close modal
 const closeModal = () => {
   modalbg.style.display = "none"; 
   pageMain.style.display = 'block';
@@ -82,7 +82,7 @@ function noBorder(input) {
 }
 
 //regex and test 
-const nameRegex = /^[a-zA-Z-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]{2,}$/;
+const nameRegex = /^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\']{2,}[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\-\'\s]{0,}$/;
 function giveTest(id) {
 if (id == 'firstName'){return nameRegex.test(firstName.value.trim())}
 else if (id == 'lastName'){return nameRegex.test(lastName.value.trim())}
