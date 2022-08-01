@@ -53,7 +53,7 @@ modalBtnClose.onclick = closeModal;
 document.getElementById('close2').onclick = closeModal;
 
 //retain data when the form is incorrectly completed
-form.addEventListener("submit", (event) => event.preventDefault());
+form.addEventListener("submit", (event) => {event.preventDefault();validate()});
 
 //Preparation of Error messsage (opacity = 0)
 const placeMessage = (input,message) => input.parentNode.setAttribute('data-error',message);
