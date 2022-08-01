@@ -128,13 +128,13 @@ function validate() {
   } else{ 
     messageEnvoi.style.display = 'flex';
     form.classList.add('invisibleForm');
-    bruitachievement();
+    bruitAchievement();
     return true;
   }
 }
 
 //function bruitage
-function bruitachievement(){
+function bruitAchievement(){
   const bruitachievement = new Audio();
   bruitachievement.src = "./bruit/achievement.wav";
   bruitachievement.play();
