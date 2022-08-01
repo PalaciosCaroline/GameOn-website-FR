@@ -121,9 +121,9 @@ function validate() {
   //control of every inputs
   let i=0
   for(let input of textControl) { verif(input); if(verif(input) == false){i++}}
-  verif(location1); //validate if one input location is checked
-  verif(checkbox1); 
-  if (i > 0  || !verif(location1) || !verif(checkbox1)) {
+  verif(location1);if (verif(location1) == false){i++}; //validate if one in locations is checked
+  verif(checkbox1);if(verif(checkbox1) == false){i++} 
+  if (i > 0) {
     return false;
   } else{ 
     messageEnvoi.style.display = 'flex';
