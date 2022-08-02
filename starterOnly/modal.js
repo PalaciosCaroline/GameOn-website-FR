@@ -25,7 +25,7 @@ const results = {
   'email' : email.value,
   'birthdate' : birthdate.value,
   'age': '',
-  'quantity' : quantity.value,
+  'participations précédentes à des tournois' : quantity.value,
   'choice of tournement' : '',
   'cgu' : checkbox1.checked
 }
@@ -67,6 +67,7 @@ document.getElementById('close2').onclick = closeModal;
 //retain data when the form is incorrectly completed or send, log and delete input
 form.addEventListener("submit", (event) => {
   event.preventDefault();
+  validate();
   if (validate()) {
     logResults();
     emptyInput()}
@@ -117,7 +118,7 @@ function isTestOk(id) {
   case 'email' : results['email']=email.value; 
     return (email.value.trim()).match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
     break;
-  case 'quantity' : results['quantity']=quantity.value; 
+  case 'quantity' : results['participations précédentes à des tournois']=quantity.value; 
       return quantity.value.match(/^[0-9]+$/);
   break;
   case 'birthdate':
