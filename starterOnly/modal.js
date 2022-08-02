@@ -18,6 +18,23 @@ const pageMain =  document.getElementById('pageMain');
 const pageFooter = document.getElementById('pageFooter');
 const textControl = document.querySelectorAll('.text-control');
 
+//inputs values record for log in console
+const results = {
+  'firstName' : firstName.value,
+  'lastName' : lastName.value,
+  'email' : email.value,
+  'birthdate' : birthdate.value,
+  'age': '',
+  'quantity' : quantity.value,
+  'choice of tournement' : '',
+  'cgu' : checkbox1.checked
+}
+//function log all results in console after validate form
+function logResults() {
+  for (let property in results) {
+  console.log(`${property}: ${results[property]}`)}
+}
+
 hamburger.onclick = () => {
   hamburger.classList.toggle("open");
   nav_ul.classList.toggle("slide");
@@ -52,8 +69,13 @@ const closeModal = () => {
 modalBtnClose.onclick = closeModal;
 document.getElementById('close2').onclick = closeModal;
 
-//retain data when the form is incorrectly completed
-form.addEventListener("submit", (event) => {event.preventDefault();validate()});
+//retain data when the form is incorrectly completed or send, log and delete input
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (validate()) {
+    logResults();
+    emptyInput()}
+  });
 
 //Preparation of Error messsage (opacity = 0)
 const placeMessage = (input,message) => input.parentNode.setAttribute('data-error',message);
@@ -71,48 +93,87 @@ const errorWhite = (element) => {element.parentNode.classList = ("formData white
 //Writing red error message (color=red and opacity=1)
 const errorRed = (element) => {element.parentNode.classList = ("formData red")};
 function redBorder(input) {
-  if(input == 'location1') {return checkBorder.forEach((i) => i.classList.add('colorred'))}
-  else if (input == 'checkbox1') {return cguBorder.classList.add('colorred')}
-}  
+  if(input == 'location1') {
+    return checkBorder.forEach((i) => i.classList.add('colorred'))
+  } else if (input == 'checkbox1') {
+    return cguBorder.classList.add('colorred')
+}}  
+
 //Deletion of messages
 const noError = (element) => element.parentNode.classList = ("formData");
 function noBorder(input) {
-  if (input == 'location1') {return checkBorder.forEach((i) => i.classList.remove('colorred'))}
-  else if (input == 'checkbox1') {return cguBorder.classList.remove('colorred')}
+  if (input == 'location1') {
+    return checkBorder.forEach((i) => i.classList.remove('colorred'))
+  } else if (input == 'checkbox1') {
+    return cguBorder.classList.remove('colorred')
+  }
 }
 
 //regex and test 
 const nameRegex = /^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\']{2,}[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\-\'\s]{0,}$/;
-function giveTest(id) {
-if (id == 'firstName'){return nameRegex.test(firstName.value.trim())}
-else if (id == 'lastName'){return nameRegex.test(lastName.value.trim())}
-else if (id == 'email') { return (email.value.trim()).match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)}
-else if (id == 'quantity') { return quantity.value.match(/^[0-9]+$/)}
-else if (id == 'birthdate') {const date = new Date(birthdate.value);
-  const now = Date.now();
-  const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
-  const age = (now - date) / oneYear;
-  if (!(date instanceof Date) || isNaN(date) || age < 12 || age > 130){ return false;
-  } else {return true;}}
-else if (id == 'location1') {const Locationchecked = document.querySelector("input[name='location']:checked");return Locationchecked !== null} 
-else if (id == 'checkbox1') {return checkbox1.checked}
-}
+function isTestOk(id) {
+  switch (id) {
+  case 'firstName': results['firstName']=firstName.value; 
+    return nameRegex.test(firstName.value.trim());
+    break;
+  case 'lastName': results['lastName']=lastName.value; 
+    return nameRegex.test(lastName.value.trim());
+    break;
+  case 'email' : results['email']=email.value; 
+    return (email.value.trim()).match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+    break;
+  case 'quantity' : results['quantity']=quantity.value; 
+      return quantity.value.match(/^[0-9]+$/);
+  break;
+  case 'birthdate':
+    const date = new Date(birthdate.value);
+    const now = Date.now();
+    const oneYear = 365.25 * 24 * 60 * 60 * 1000; //one year of secondes
+    const age = (now - date) / oneYear;     
+    if (!(date instanceof Date) || isNaN(date) || age < 12 || age > 130){ 
+      return false;
+    } else {
+      results['birthdate']=birthdate.value;
+      results['age']=`${age.toFixed(0)} ans`;
+      return true;}
+    break;
+  case 'location1':
+    const Locationchecked = document.querySelector("input[name='location']:checked");
+    if(Locationchecked !== null) {results['choice of tournement']=Locationchecked.value;
+    } else {results['choice of tournement']= 'aucun tournoi n\'a été choisi';}
+    return Locationchecked !== null;
+    break;
+  case 'checkbox1' : results[checkbox1] = checkbox1.checked ;
+    return checkbox1.checked;
+    break;
+}}
 
 //help and control on write
-textControl.forEach((input) => input.addEventListener("keyup", function() {errorWhite(input); (giveTest(this.id))? noError(input) : ''}));
+textControl.forEach((input) => input.addEventListener("keyup", function() {
+    errorWhite(input); 
+    (isTestOk(this.id))? noError(input) : '';
+}))
 radios.forEach((input) => input.addEventListener("change", () => verif(location1)));//if change
 checkbox1.addEventListener("change", () => verif(checkbox1));//warning if uncheck cgu
 
 //control focusout
-textControl.forEach((input) => input.addEventListener("focusout", function() {(giveTest(this.id))? noError(input) : errorRed(input)}));
+textControl.forEach((input) => input.addEventListener("focusout", function() {
+    (isTestOk(this.id))? noError(input) : errorRed(input);
+}))
 
 //Control firstName, lastName, email, quantity, birthdate, location of tournement and cgu
 function verif(input) {
-  if (!giveTest(input.id)) { errorRed(input);
-    if (input == location1 || input == checkbox1) {redBorder(input.id);}
+  if (!isTestOk(input.id)) { 
+    errorRed(input);
+    if (input == location1 || input == checkbox1) {
+      redBorder(input.id);
+    }
     return false;
-  }  else { noError(input);
-    if (input == location1 || input == checkbox1) {noBorder(input.id);}
+  } else { 
+    noError(input);  
+    if (input == location1 || input == checkbox1) {
+      noBorder(input.id);
+    }
   return true;
 }};
 
@@ -120,12 +181,17 @@ function verif(input) {
 function validate() {
   //control of every inputs
   let i=0
-  for(let input of textControl) { verif(input); if(verif(input) == false){i++}}
-  verif(location1);if (verif(location1) == false){i++}; //validate if one in locations is checked
-  verif(checkbox1);if(verif(checkbox1) == false){i++} 
+  for(let input of textControl) { 
+    verif(input); 
+    if(verif(input) == false){i++}
+  }
+  verif(location1); //validate if one in locations is checked
+  if (verif(location1) == false) {i++} 
+  verif(checkbox1);
+  if(verif(checkbox1) == false){i++} 
   if (i > 0) {
     return false;
-  } else{ 
+  } else { 
     messageEnvoi.style.display = 'flex';
     form.classList.add('invisibleForm');
     bruitAchievement();
@@ -139,3 +205,12 @@ function bruitAchievement(){
   bruitachievement.src = "./bruit/achievement.wav";
   bruitachievement.play();
 }
+
+function emptyInput() {
+  textControl.forEach((input) => input.value = '');
+  radios.forEach((input) => input.checked = false); 
+}
+
+
+
+
