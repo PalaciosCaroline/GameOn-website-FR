@@ -29,11 +29,6 @@ const results = {
   'choice of tournement' : '',
   'cgu' : checkbox1.checked
 }
-//function log all results in console after validate form
-function logResults() {
-  for (let property in results) {
-  console.log(`${property}: ${results[property]}`)}
-}
 
 hamburger.onclick = () => {
   hamburger.classList.toggle("open");
@@ -204,6 +199,12 @@ function bruitAchievement(){
   const bruitachievement = new Audio();
   bruitachievement.src = "./bruit/achievement.wav";
   bruitachievement.play();
+}
+
+//function log all results in console after validate form
+function logResults() {
+  for (let property in results) {
+  console.log(`${property}: ${results[property]}`)}
 }
 
 function emptyInput() {
