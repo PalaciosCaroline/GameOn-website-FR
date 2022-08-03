@@ -33,7 +33,7 @@ const results = {
 hamburger.onclick = () => {
   hamburger.classList.toggle("open");
   nav_ul.classList.toggle("slide");
-};
+}
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -51,14 +51,14 @@ function launchModal() {
       hamburger.classList.remove("open");
       nav_ul.classList.remove("slide");
     }
-};
+}
 
 // close modal
 const closeModal = () => {
   modalbg.style.display = "none"; 
   pageMain.style.display = 'block';
   pageFooter.style.display = "block";
-};
+}
 
 // Close modal event
 modalBtnClose.onclick = closeModal;
@@ -71,7 +71,7 @@ form.addEventListener("submit", (event) => {
   if (validate()) {
     logResults();
     emptyInput()}
-  });
+  })
 
 //Preparation of Error messsage (opacity = 0)
 const placeMessage = (input,message) => input.parentNode.setAttribute('data-error',message);
@@ -84,10 +84,10 @@ placeMessage(location1,'Veuillez choisir une option.')
 placeMessage(checkbox1,'Veuillez vérifier que vous acceptez bien les termes et conditions.')
 
 //writing white help message (color=white and opacity=1)
-const errorWhite = (element) => {element.parentNode.classList = ("formData white");}
+const errorWhite = (element) => {element.parentNode.classList = ("formData white")}
 
 //Writing red error message (color=red and opacity=1)
-const errorRed = (element) => {element.parentNode.classList = ("formData red")};
+const errorRed = (element) => {element.parentNode.classList = ("formData red")}
 function redBorder(input) {
   if(input == 'location1') {
     return checkBorder.forEach((i) => i.classList.add('colorred'))
@@ -142,6 +142,8 @@ function isTestOk(id) {
   case 'checkbox1' : results[checkbox1] = checkbox1.checked ;
     return checkbox1.checked;
     break;
+  default : 
+  break;
 }}
 
 //help and control on write
@@ -171,7 +173,7 @@ function verif(input) {
       noBorder(input.id);
     }
   return true;
-}};
+}}
 
 //form validation function
 function validate() {
