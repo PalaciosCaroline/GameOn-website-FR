@@ -151,7 +151,7 @@ textControl.forEach((input) => input.addEventListener("keyup", function() {
     errorWhite(input); 
     (isTestOk(this.id))? noError(input) : '';
 }))
-radios.forEach((input) => input.addEventListener("change", () => verif(location1)));//if change
+radios.forEach((input) => input.addEventListener("change", () => verif(location1)))//if change
 checkbox1.addEventListener("change", () => verif(checkbox1));//warning if uncheck cgu
 
 //control focusout
